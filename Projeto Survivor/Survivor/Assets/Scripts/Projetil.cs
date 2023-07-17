@@ -10,8 +10,8 @@ public class Projetil : MonoBehaviour
         // Destruir o projetil apos o tempo de destruicao especificado
         Destroy(gameObject, tempoDestruicao);
     }
-   // Start is called before the first frame update
-   void OnCollisionEnter2D(Collision2D collision)
+    // Start is called before the first frame update
+    void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Alvo"))
         {

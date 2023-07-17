@@ -9,6 +9,8 @@ public class ControladorJogo : MonoBehaviour
     private bool metodoAtivo = false;
     [SerializeField]private GameObject painelPause;
     [SerializeField]private GameObject painelGameOver;
+    [SerializeField]private GameObject painelOpcoes;
+    [SerializeField]private GameObject painelPoder;
     public GameObject player;
     
     void Update()
@@ -38,26 +40,35 @@ public class ControladorJogo : MonoBehaviour
             Debug.Log("Pausar() nao pode ser chamado enquanto o gameOver() esta ativo.");
             return;
         }
-        Time.timeScale = 0f;  // Define o timescale como zero para pausar o jogo
+
+        Time.timeScale = 0f;
         jogoPausado = true;
         painelPause.SetActive(true);
-        Debug.Log("Jogo pausado");
     }
     public void ContinuarJogo()
     {
-        Time.timeScale = 1f;  // Restaura o timescale para 1 para continuar o jogo
+        Time.timeScale = 1f;
         jogoPausado = false;
         painelPause.SetActive(false);
-        Debug.Log("Jogo continuado");
+        painelOpcoes.SetActive(false);
     }
     public void gameOver(){
-        Time.timeScale = 0f;  // Define o timescale como zero para pausar o jogo
-        //jogoPausado = true;
+        Time.timeScale = 0f;
         painelGameOver.SetActive(true);     
-
+    }
+    public void abrirOpcoes(){
+        painelOpcoes.SetActive(true);   
+    }
+    public void fecharOpcoes(){
+        painelOpcoes.SetActive(false);
     }
     public void novoPoder(){
-        
+        Time.timeScale = 0f;
+        painelPoder.SetActive(true); 
+    }
+     public void pularPoder(){
+        Time.timeScale = 1f;
+        painelPoder.SetActive(false); 
     }
     public void bau(){
         

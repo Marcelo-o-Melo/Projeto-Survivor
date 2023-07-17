@@ -25,8 +25,6 @@ public class GeracaoDeInimigos : MonoBehaviour
         // Calcula uma posicao aleatoria dentro da distancia maxima
         Vector2 posicaoAleatoria = (Vector2)personagem.position + Random.insideUnitCircle * distanciaMaxima;
 
-        
-       
         // Verifica a distancia minima entre a posicao aleatoria e o personagem
         float distancia = Vector2.Distance(posicaoAleatoria, personagem.position);
         if (distancia >= distanciaMinima)
@@ -38,7 +36,6 @@ public class GeracaoDeInimigos : MonoBehaviour
         novoMonstro.SetActive(true);
             
         }
-
         // Aguarda o intervalo de geracao
         yield return new WaitForSeconds(intervaloGeracao);
     }

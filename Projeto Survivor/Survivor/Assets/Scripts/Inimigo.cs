@@ -19,7 +19,7 @@ public class Inimigo : MonoBehaviour
             GameObject novoXp = Instantiate(XpPrefab, transform.position, Quaternion.identity);
             novoXp.SetActive(true);
             Destroy(gameObject);
-            GerenciadorDeJogo.contadorMortes++;
+            MyGUI.contadorMortes++;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
