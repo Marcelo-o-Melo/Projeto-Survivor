@@ -7,27 +7,24 @@ public class Inimigo : MonoBehaviour
 {
     public GameObject XpPrefab;
 
-    public int vidaMaxima = 5;
-    private int vidaAtual;
-
-    void Start()
+    public float vida;
+    public float dano;
+   
+    void Morrer()
     {
-        vidaAtual = vidaMaxima;
-    }
-       void Morrer()
-    {
-            GameObject novoXp = Instantiate(XpPrefab, transform.position, Quaternion.identity);
-            novoXp.SetActive(true);
-            Destroy(gameObject);
-            MyGUI.contadorMortes++;
+        GameObject novoXp = Instantiate(XpPrefab, transform.position, Quaternion.identity);
+        novoXp.SetActive(true);
+        Destroy(gameObject);
+        MyGUI.contadorMortes++;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Shuriken"))
         {
-            vidaAtual -=1;
-            if (vidaAtual <= 0){
+            //vidaAtual -= player.danoShuriken;
+            vida -= 1;
+            if (vida <= 0){
                 Morrer();
         }
            

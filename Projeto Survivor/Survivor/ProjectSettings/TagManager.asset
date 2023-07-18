@@ -6,7 +6,11 @@ TagManager:
   tags:
   - Alvo
   - Shuriken
-  - xp
+  - xp1
+  - xp2
+  - xp3
+  - xp4
+  - xp5
   layers:
   - Default
   - TransparentFX

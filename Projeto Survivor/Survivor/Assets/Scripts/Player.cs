@@ -3,14 +3,15 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public int vidaMaxima;
-    public int vidaAtual;
-    [SerializeField] public int xp;
-    [SerializeField] public int xpMaximo;
+    public float vidaMaxima;
+    public float vidaAtual;
+    [SerializeField] public float xp;
+    [SerializeField] public float xpMaximo;
     [SerializeField] public int nivel;
     public ControladorJogo controladorJogo;
     public MyGUI gui;
-    public int velocidade;
+    public EscolherPoder escolherPoder;
+    public float velocidade;
     public GameObject projetilPrefab;
     public Transform pontoLancamento;
     
@@ -18,15 +19,22 @@ public class Player : MonoBehaviour
     public float forcaLancamento = 10f;
     public bool atirando;
     public float distanciaMinima = 20f;
+    public bool regenera;
+    public float taxaDeRegeneracao = 0f;
+    public float intervaloDeRegeneracao = 1f;
 
     // Start is called before the first frame update
     void Start()
     {
-        vidaMaxima = 10;
+
+        vidaMaxima = 50;
         xpMaximo = 10;
         vidaAtual = vidaMaxima;
         velocidade = 5;
         atirando = true;
+        regenera = false;
+
+        InvokeRepeating("RegenerarVida", intervaloDeRegeneracao, intervaloDeRegeneracao);
 
         StartCoroutine(IntervaloDisparo()); // Inicia a rotina de intervalo de disparo
     }
@@ -39,7 +47,18 @@ public class Player : MonoBehaviour
         Vector2 deslocamento = new Vector2(movHori, movVert) * velocidade * Time.deltaTime;
         
         transform.Translate(deslocamento);
+      
     }
+public void RegenerarVida()
+{
+    if (vidaAtual < vidaMaxima)
+    {
+        vidaAtual += taxaDeRegeneracao;
+    }
+    else if (vidaAtual > vidaMaxima){
+        vidaAtual = vidaMaxima;
+    }
+}
 
     public void Morrer()
     {
@@ -48,6 +67,7 @@ public class Player : MonoBehaviour
             Destroy(gameObject);  
         }
     }
+    
 
     public void subirNivel()
     {
@@ -55,26 +75,59 @@ public class Player : MonoBehaviour
         {
             xp = 0;
             nivel++;
-            xpMaximo += 10;
+            xpMaximo += 10; //valor comentado para tester de nivel
             gui.AlterarXp(xp);
+            escolherPoder.OnPlayerLevelUp();
             controladorJogo.novoPoder();
         }
     }
     
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("xp"))
+        if (collision.gameObject.CompareTag("xp1"))
         {
             xp++;
             gui.AlterarXp(xp);
             subirNivel();
         }
+        if (collision.gameObject.CompareTag("xp2"))
+        {
+            xp += 2;
+            gui.AlterarXp(xp);
+            subirNivel();
+        }
+        if (collision.gameObject.CompareTag("xp3"))
+        {
+            xp += 4;
+            gui.AlterarXp(xp);
+            subirNivel();
+        }
+        if (collision.gameObject.CompareTag("xp4"))
+        {
+            xp += 10;
+            gui.AlterarXp(xp);
+            subirNivel();
+        }
+        if (collision.gameObject.CompareTag("xp5"))
+        {
+            xp += 40;
+            gui.AlterarXp(xp);
+            subirNivel();
+        }
+        
         if (collision.gameObject.CompareTag("Alvo"))
         {
-            vidaAtual -= 1;
-            gui.AlterarVida(vidaAtual);
-            Morrer();      
+            Inimigo inimigo = collision.gameObject.GetComponent<Inimigo>();
+            
+            if (inimigo != null)
+            {
+                vidaAtual -= inimigo.dano;
+                gui.AlterarVida(vidaAtual);
+                Morrer();    
+                // Restante do codigo para atualizar a vida e tratar a morte do jogador...
+            }
         }
+
     }
 
     IEnumerator IntervaloDisparo()
