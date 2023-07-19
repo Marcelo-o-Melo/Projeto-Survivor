@@ -214,6 +214,7 @@ GameObject:
   - component: {fileID: 53924660}
   - component: {fileID: 53924662}
   - component: {fileID: 53924661}
+  - component: {fileID: 53924663}
   m_Layer: 5
   m_Name: contador vida
   m_TagString: Untagged
@@ -283,6 +284,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 53924659}
   m_CullTransparentMesh: 1
+--- !u!114 &53924663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53924659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 53924661}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 491742527}
+        m_TargetAssemblyTypeName: EscolherPoder, Assembly-CSharp
+        m_MethodName: aumentarVida
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &73129487
 GameObject:
   m_ObjectHideFlags: 0
@@ -294,6 +351,7 @@ GameObject:
   - component: {fileID: 73129488}
   - component: {fileID: 73129490}
   - component: {fileID: 73129489}
+  - component: {fileID: 73129491}
   m_Layer: 5
   m_Name: contador vda
   m_TagString: Untagged
@@ -363,6 +421,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 73129487}
   m_CullTransparentMesh: 1
+--- !u!114 &73129491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 73129487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 73129489}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 491742527}
+        m_TargetAssemblyTypeName: EscolherPoder, Assembly-CSharp
+        m_MethodName: aumentarVDA
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &92228612
 GameObject:
   m_ObjectHideFlags: 0
@@ -763,7 +877,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   personagem: {fileID: 1864595986}
   velocidade: 10
-  distanciaMinima: 3
 --- !u!114 &189306013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -901,8 +1014,8 @@ GameObject:
   - component: {fileID: 247465237}
   - component: {fileID: 247465236}
   - component: {fileID: 247465238}
-  - component: {fileID: 247465240}
   - component: {fileID: 247465241}
+  - component: {fileID: 247465240}
   m_Layer: 7
   m_Name: Shuriken
   m_TagString: Shuriken
@@ -1016,6 +1129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 970976734bda7ad4b9087b43ab494df9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dano: 1
   tempoDestruicao: 3
 --- !u!68 &247465241
 EdgeCollider2D:
@@ -2235,7 +2349,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   personagem: {fileID: 1864595986}
   velocidade: 10
-  distanciaMinima: 3
 --- !u!114 &609072661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3039,7 +3152,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   personagem: {fileID: 1864595986}
   velocidade: 10
-  distanciaMinima: 3
 --- !u!1 &787614979
 GameObject:
   m_ObjectHideFlags: 0
@@ -3056,7 +3168,7 @@ GameObject:
   - component: {fileID: 787614985}
   m_Layer: 6
   m_Name: Inimigo comum
-  m_TagString: Alvo
+  m_TagString: Inimigo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3227,6 +3339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   XpPrefab: {fileID: 2131226793}
+  projetil: {fileID: 247465240}
   vida: 1
   dano: 1
 --- !u!1 &789326069
@@ -3316,6 +3429,7 @@ GameObject:
   - component: {fileID: 792619252}
   - component: {fileID: 792619254}
   - component: {fileID: 792619253}
+  - component: {fileID: 792619255}
   m_Layer: 5
   m_Name: contador vdm
   m_TagString: Untagged
@@ -3387,6 +3501,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 792619251}
   m_CullTransparentMesh: 1
+--- !u!114 &792619255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 792619251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 792619253}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 491742527}
+        m_TargetAssemblyTypeName: EscolherPoder, Assembly-CSharp
+        m_MethodName: aumentarVDM
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &804877416
 GameObject:
   m_ObjectHideFlags: 0
@@ -4372,6 +4542,7 @@ GameObject:
   - component: {fileID: 1103496038}
   - component: {fileID: 1103496037}
   - component: {fileID: 1103496040}
+  - component: {fileID: 1103496041}
   m_Layer: 0
   m_Name: Faca
   m_TagString: Untagged
@@ -4518,6 +4689,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.86, y: 4.92}
   m_EdgeRadius: 0
+--- !u!114 &1103496041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1103496035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 970976734bda7ad4b9087b43ab494df9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dano: 5
+  tempoDestruicao: 3
 --- !u!1 &1137171385
 GameObject:
   m_ObjectHideFlags: 0
@@ -4663,6 +4848,7 @@ GameObject:
   - component: {fileID: 1184589482}
   - component: {fileID: 1184589484}
   - component: {fileID: 1184589483}
+  - component: {fileID: 1184589485}
   m_Layer: 5
   m_Name: contador regen
   m_TagString: Untagged
@@ -4732,6 +4918,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1184589481}
   m_CullTransparentMesh: 1
+--- !u!114 &1184589485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184589481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1184589483}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 491742527}
+        m_TargetAssemblyTypeName: EscolherPoder, Assembly-CSharp
+        m_MethodName: vidaRegen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1207626057
 GameObject:
   m_ObjectHideFlags: 0
@@ -4958,6 +5200,7 @@ GameObject:
   - component: {fileID: 1258915916}
   - component: {fileID: 1258915918}
   - component: {fileID: 1258915917}
+  - component: {fileID: 1258915919}
   m_Layer: 5
   m_Name: contador ima
   m_TagString: Untagged
@@ -5027,6 +5270,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1258915915}
   m_CullTransparentMesh: 1
+--- !u!114 &1258915919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1258915915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1258915917}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 491742527}
+        m_TargetAssemblyTypeName: EscolherPoder, Assembly-CSharp
+        m_MethodName: aumentarIma
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1279740478
 GameObject:
   m_ObjectHideFlags: 0
@@ -7928,7 +8227,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   personagem: {fileID: 1864595986}
   velocidade: 10
-  distanciaMinima: 3
 --- !u!114 &2067848632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8388,7 +8686,7 @@ GameObject:
   - component: {fileID: 2123319703}
   m_Layer: 6
   m_Name: Inimigo raro
-  m_TagString: Alvo
+  m_TagString: Inimigo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8421,6 +8719,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   XpPrefab: {fileID: 609072659}
+  projetil: {fileID: 247465240}
   vida: 5
   dano: 5
 --- !u!50 &2123319704
@@ -8746,7 +9045,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   personagem: {fileID: 1864595986}
   velocidade: 10
-  distanciaMinima: 3
 --- !u!114 &2131226796
 MonoBehaviour:
   m_ObjectHideFlags: 0

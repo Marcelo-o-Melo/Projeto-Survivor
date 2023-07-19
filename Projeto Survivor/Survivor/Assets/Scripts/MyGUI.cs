@@ -30,6 +30,8 @@ public class MyGUI : MonoBehaviour
     public static int contadorMortes = 0;
         void Start()
         {
+            sliderXp.interactable = false;
+            sliderVida.interactable = false;
             AtualizarContador();
         }
         void Update()
@@ -43,7 +45,7 @@ public class MyGUI : MonoBehaviour
 
         if (player != null)
         {
-             int lvl = player.GetComponent<Player>().nivel;
+            int lvl = player.GetComponent<Player>().nivel;
             textoLVL.text = "LVL " + lvl.ToString();
 
             float xp = player.GetComponent<Player>().xp;
@@ -62,10 +64,10 @@ public class MyGUI : MonoBehaviour
             txtVidaMaxima.text = "Vida maxima: " + vidaMax.ToString();
         }      
 
-        float areaXp = xpClass.GetComponent<Xp>().distanciaMinima;
+        float areaXp = Xp.distanciaMinima;
         textoAreaXP.text = "Area xp: " + areaXp.ToString();
 
-/////////////////////////testes abaixo///////////////////////////////////////
+        //////////contadores de poder///////////////////////
 
         int contvdm = escolherPoder.GetComponent<EscolherPoder>().contAumentarVDM;
         textoContadorVdm.text = "vdm: " + contvdm.ToString();
@@ -82,15 +84,19 @@ public class MyGUI : MonoBehaviour
         int regen = escolherPoder.GetComponent<EscolherPoder>().contVidaRegen;
         textoContadorRegen.text = "regen: " + regen.ToString();
 
+        ////////////////////////////////////////////////////////////
+
         }
         void AtualizarContador()
         {
         textoContadorMortes.text = "MORTES: " + contadorMortes.ToString();
         }
+        //////////barra de vida///////////////
         public void AlterarVida(float vida) {
         sliderVida.maxValue = player.vidaMaxima;
         sliderVida.value = vida;
         }
+        ////////////barra de xp////////////////
         public void AlterarXp(float xp) {
         sliderXp.maxValue = player.xpMaximo;
         sliderXp.value = xp;

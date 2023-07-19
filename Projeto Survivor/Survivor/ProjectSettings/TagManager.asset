@@ -4,13 +4,13 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Alvo
-  - Shuriken
   - xp1
   - xp2
   - xp3
   - xp4
   - xp5
+  - Projetil
+  - Inimigo
   layers:
   - Default
   - TransparentFX

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Inimigo : MonoBehaviour
 {
     public GameObject XpPrefab;
+    public Projetil projetil;
 
     public float vida;
     public float dano;
@@ -18,16 +19,20 @@ public class Inimigo : MonoBehaviour
         MyGUI.contadorMortes++;
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Shuriken"))
+        Projetil projetil = collision.gameObject.GetComponent<Projetil>();
+
+        if (projetil != null)
         {
-            //vidaAtual -= player.danoShuriken;
-            vida -= 1;
-            if (vida <= 0){
+            vida -= projetil.dano;
+
+            if (vida <= 0)
+            {
                 Morrer();
-        }
-           
+            }
+
+            Destroy(projetil.gameObject);
         }
     }
 }

@@ -36,7 +36,7 @@ public class EscolherPoder : MonoBehaviour
         AtribuirMetodosAleatorios();
     }
 
-    private void aumentarVida()
+    public void aumentarVida()
     {
         contAumentarVida++;
         player.vidaMaxima += 10;
@@ -45,7 +45,7 @@ public class EscolherPoder : MonoBehaviour
         painelPoder.SetActive(false);
     }
 
-    private void aumentarVDA()
+    public void aumentarVDA()
     {
         contAumentarVDA++;
         player.intervaloDisparo -= 0.1f;
@@ -54,7 +54,7 @@ public class EscolherPoder : MonoBehaviour
         painelPoder.SetActive(false);
     }
 
-    private void aumentarVDM()
+    public void aumentarVDM()
     {
         contAumentarVDM++;
         player.velocidade += 10;
@@ -62,15 +62,15 @@ public class EscolherPoder : MonoBehaviour
         painelPoder.SetActive(false);
     }
 
-    private void aumentarIma()
+    public void aumentarIma()
     {
         contAumentarIma++;
-        xp.distanciaMinima += 10;
+        Xp.distanciaMinima += 10;
         Time.timeScale = 1f;
         painelPoder.SetActive(false);
     }
 
-    private void vidaRegen()
+    public void vidaRegen()
     {
         contVidaRegen++;
         player.regenera = true;
@@ -80,7 +80,7 @@ public class EscolherPoder : MonoBehaviour
         painelPoder.SetActive(false);
     }
 
-    private void SacoDeOuro()
+    public void SacoDeOuro()
     {
         Time.timeScale = 1f;
         painelPoder.SetActive(false);

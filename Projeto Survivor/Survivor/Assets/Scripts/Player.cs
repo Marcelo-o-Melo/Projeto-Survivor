@@ -49,16 +49,20 @@ public class Player : MonoBehaviour
         transform.Translate(deslocamento);
       
     }
-public void RegenerarVida()
-{
+    public void RegenerarVida()
+    {
     if (vidaAtual < vidaMaxima)
     {
         vidaAtual += taxaDeRegeneracao;
+
+        // Atualizar o slider de vida
+        gui.AlterarVida(vidaAtual);
     }
-    else if (vidaAtual > vidaMaxima){
+    else if (vidaAtual > vidaMaxima)
+    {
         vidaAtual = vidaMaxima;
     }
-}
+    }
 
     public void Morrer()
     {
@@ -73,7 +77,8 @@ public void RegenerarVida()
     {
         if (xp >= xpMaximo)
         {
-            xp = 0;
+
+            xp = xp - xpMaximo;
             nivel++;
             xpMaximo += 10; //valor comentado para tester de nivel
             gui.AlterarXp(xp);
@@ -115,20 +120,24 @@ public void RegenerarVida()
             subirNivel();
         }
         
-        if (collision.gameObject.CompareTag("Alvo"))
-        {
-            Inimigo inimigo = collision.gameObject.GetComponent<Inimigo>();
-            
-            if (inimigo != null)
-            {
-                vidaAtual -= inimigo.dano;
-                gui.AlterarVida(vidaAtual);
-                Morrer();    
-                // Restante do codigo para atualizar a vida e tratar a morte do jogador...
-            }
-        }
-
     }
+
+    void OnCollisionStay2D(Collision2D collision)
+{
+    if (collision.gameObject.CompareTag("Inimigo"))
+    {
+        Inimigo inimigo = collision.gameObject.GetComponent<Inimigo>();
+
+        if (inimigo != null)
+        {
+            vidaAtual -= inimigo.dano;
+            gui.AlterarVida(vidaAtual);
+            Morrer();
+        }
+    }
+}
+
+
 
     IEnumerator IntervaloDisparo()
     {
@@ -164,7 +173,7 @@ public void RegenerarVida()
     private void Disparar()
 {
     // Procura o alvo
-    GameObject alvo = GameObject.FindGameObjectWithTag("Alvo");
+    GameObject alvo = GameObject.FindGameObjectWithTag("Inimigo");
 
     if (alvo != null)
     {
