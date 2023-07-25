@@ -8,6 +8,7 @@ public class MyGUI : MonoBehaviour
     public Slider sliderXp;
     public Slider sliderVida;
     public Player player;
+    public GerenciadorArmas gerenciadorArmas;
     public Xp xpClass;
     public EscolherPoder escolherPoder;
     public Text textoLVL;
@@ -16,6 +17,7 @@ public class MyGUI : MonoBehaviour
     public Text txtVdm;
     public Text txtVda;
     public Text txtVida;
+    public Text txtDano;
     public Text txtVidaMaxima;
     public Text textoContadorMortes;
     public Text textoContadorTempo;
@@ -25,9 +27,12 @@ public class MyGUI : MonoBehaviour
     public Text textoContadorVida;
     public Text textoContadorIma;
     public Text textoContadorRegen;
+    public Text textoContadorDano;
 
-    static float tempoDecorrido = 0f;
+    public static float tempoDecorrido = 0f;
     public static int contadorMortes = 0;
+
+
         void Start()
         {
             sliderXp.interactable = false;
@@ -62,6 +67,9 @@ public class MyGUI : MonoBehaviour
 
             float vidaMax = player.GetComponent<Player>().vidaMaxima;
             txtVidaMaxima.text = "Vida maxima: " + vidaMax.ToString();
+
+            float dano = gerenciadorArmas.GetComponent<GerenciadorArmas>().multiplicador;
+            txtDano.text = "Multiplicador de dano: " + dano.ToString();
         }      
 
         float areaXp = Xp.distanciaMinima;
@@ -81,8 +89,11 @@ public class MyGUI : MonoBehaviour
         int contima = escolherPoder.GetComponent<EscolherPoder>().contAumentarIma;
         textoContadorIma.text = "ima: " + contima.ToString();
 
-        int regen = escolherPoder.GetComponent<EscolherPoder>().contVidaRegen;
-        textoContadorRegen.text = "regen: " + regen.ToString();
+        int contRegen = escolherPoder.GetComponent<EscolherPoder>().contVidaRegen;
+        textoContadorRegen.text = "regen: " + contRegen.ToString();
+
+        int contDano = escolherPoder.GetComponent<EscolherPoder>().contAumentarDanoArmas;
+        textoContadorDano.text = "dano: " + contDano.ToString();
 
         ////////////////////////////////////////////////////////////
 

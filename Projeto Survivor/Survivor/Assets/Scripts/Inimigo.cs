@@ -25,7 +25,7 @@ public class Inimigo : MonoBehaviour
 
         if (projetil != null)
         {
-            vida -= projetil.dano;
+            vida -= projetil.danoFinal;
 
             if (vida <= 0)
             {

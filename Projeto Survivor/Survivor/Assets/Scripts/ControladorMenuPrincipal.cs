@@ -11,6 +11,8 @@ public class ControladorMenuPrincipal : MonoBehaviour
     public void jogar(){
         SceneManager.LoadScene(1);
         Time.timeScale = 1f;
+        MyGUI.tempoDecorrido = 0f;
+        MyGUI.contadorMortes = 0;
     }
     public void abrirOpcoes(){
         menuPrincipal.SetActive(false);

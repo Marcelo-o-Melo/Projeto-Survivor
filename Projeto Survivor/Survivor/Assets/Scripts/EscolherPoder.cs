@@ -8,13 +8,18 @@ public class EscolherPoder : MonoBehaviour
     public Player player;
     public MyGUI gui;
     public Xp xp;
-    public Button[] botoes;
+    public GerenciadorArmas gerenciadorArmas;
+
     public int contAumentarVida;
     public int contAumentarVDA;
     public int contAumentarVDM;
     public int contAumentarIma;
     public int contRegenVida;
     public int contVidaRegen;
+    public int contAumentarDanoArmas;
+    public int contFaca;
+    public Button[] botoes;
+    public Texture[] spritesPoderes;
 
     private int[] metodosIndices = new int[]
     {
@@ -22,7 +27,9 @@ public class EscolherPoder : MonoBehaviour
         1, // Indice do metodo aumentarVDA
         2, // Indice do metodo aumentarVDM
         3, // Indice do metodo aumentarIma
-        4 // Indice do metodo vidaRegen
+        4, // Indice do metodo vidaRegen
+        5, // Indice do metodo aumentarDanoArmas
+        6  // Indice do metodo faca
     };
 
     private void Start()
@@ -33,6 +40,8 @@ public class EscolherPoder : MonoBehaviour
         contAumentarIma = 0;
         contRegenVida = 0;
         contVidaRegen = 0;
+        contAumentarDanoArmas = 0;
+        contFaca = 0;
         AtribuirMetodosAleatorios();
     }
 
@@ -74,8 +83,25 @@ public class EscolherPoder : MonoBehaviour
     {
         contVidaRegen++;
         player.regenera = true;
-        player.taxaDeRegeneracao +=1f;
+        player.taxaDeRegeneracao += 1f;
         gui.AlterarVida(player.vidaAtual);
+        Time.timeScale = 1f;
+        painelPoder.SetActive(false);
+    }
+
+    public void aumentarDanoArmas()
+    {
+        contAumentarDanoArmas++;
+
+        gerenciadorArmas.AumentarDanoArmas();
+        Time.timeScale = 1f;
+        painelPoder.SetActive(false);
+    }
+
+    public void faca()
+    {
+        contFaca++;
+        player.poderFaca = true;
         Time.timeScale = 1f;
         painelPoder.SetActive(false);
     }
@@ -84,9 +110,9 @@ public class EscolherPoder : MonoBehaviour
     {
         Time.timeScale = 1f;
         painelPoder.SetActive(false);
-        // Adicione o codigo para dar um saco de ouro ao jogador
+        // Adicione o código para dar um saco de ouro ao jogador
         // por exemplo: player.AdicionarOuro(1);
-        Debug.Log("Voce recebeu um saco de ouro!");
+        Debug.Log("Você recebeu um saco de ouro!");
     }
 
     private void AtribuirMetodosAleatorios()
@@ -94,14 +120,14 @@ public class EscolherPoder : MonoBehaviour
         List<int> metodosDisponiveis = new List<int>(metodosIndices);
         List<int> metodosAtribuidos = new List<int>();
 
-        // Verifica se ha poderes com contador menor que 5 disponiveis
-        bool poderesNaoAtingidosLimite = contAumentarVida < 5 || contAumentarVDA < 5 || contAumentarVDM < 5 || contAumentarIma < 5 || contVidaRegen < 5;
+        // Verifica se há poderes com contador menor que 5 disponíveis
+        bool poderesNaoAtingidosLimite = contAumentarVida < 5 || contAumentarVDA < 5 || contAumentarVDM < 5 || contAumentarIma < 5 || contVidaRegen < 5 || contAumentarDanoArmas < 5 || contFaca < 5;
 
         for (int i = 0; i < botoes.Length; i++)
         {
             int metodoIndex = -1;
 
-            // Verifica se ha poderes com contador menor que 5 disponiveis e que ainda nao foram atribuidos
+            // Verifica se há poderes com contador menor que 5 disponíveis e que ainda não foram atribuídos
             List<int> poderesDisponiveis = new List<int>();
 
             if (contAumentarVida < 5 && !metodosAtribuidos.Contains(0))
@@ -114,6 +140,10 @@ public class EscolherPoder : MonoBehaviour
                 poderesDisponiveis.Add(3);
             if (contVidaRegen < 5 && !metodosAtribuidos.Contains(4))
                 poderesDisponiveis.Add(4);
+            if (contAumentarDanoArmas < 5 && !metodosAtribuidos.Contains(5))
+                poderesDisponiveis.Add(5);
+            if (contFaca < 5 && !metodosAtribuidos.Contains(6))
+                poderesDisponiveis.Add(6);
 
             if (poderesDisponiveis.Count > 0)
             {
@@ -130,29 +160,46 @@ public class EscolherPoder : MonoBehaviour
                         botoes[i].onClick.RemoveAllListeners();
                         botoes[i].onClick.AddListener(aumentarVida);
                         botoes[i].GetComponentInChildren<Text>().text = "Aumentar Vida";
+                        botoes[i].GetComponentInChildren<RawImage>().texture = spritesPoderes[0]; // Aumentar Vida
                         break;
                     case 1:
                         botoes[i].onClick.RemoveAllListeners();
                         botoes[i].onClick.AddListener(aumentarVDA);
                         botoes[i].GetComponentInChildren<Text>().text = "Diminui o intervalo de ataques";
+                        botoes[i].GetComponentInChildren<RawImage>().texture = spritesPoderes[1];
                         break;
                     case 2:
                         botoes[i].onClick.RemoveAllListeners();
                         botoes[i].onClick.AddListener(aumentarVDM);
                         botoes[i].GetComponentInChildren<Text>().text = "Aumentar velocidade de movimento";
+                        botoes[i].GetComponentInChildren<RawImage>().texture = spritesPoderes[2];
                         break;
                     case 3:
                         botoes[i].onClick.RemoveAllListeners();
                         botoes[i].onClick.AddListener(aumentarIma);
-                        botoes[i].GetComponentInChildren<Text>().text = "Aumentar Area do Ima";
+                        botoes[i].GetComponentInChildren<Text>().text = "Aumentar Área do Ímã";
+                        botoes[i].GetComponentInChildren<RawImage>().texture = spritesPoderes[3];
                         break;
                     case 4:
                         botoes[i].onClick.RemoveAllListeners();
                         botoes[i].onClick.AddListener(vidaRegen);
-                        botoes[i].GetComponentInChildren<Text>().text = "Regeneracao de vida";
+                        botoes[i].GetComponentInChildren<Text>().text = "Regeneração de Vida";
+                        botoes[i].GetComponentInChildren<RawImage>().texture = spritesPoderes[4];
+                        break;
+                    case 5:
+                        botoes[i].onClick.RemoveAllListeners();
+                        botoes[i].onClick.AddListener(aumentarDanoArmas);
+                        botoes[i].GetComponentInChildren<Text>().text = "Aumentar Dano das Armas";
+                        botoes[i].GetComponentInChildren<RawImage>().texture = spritesPoderes[5];
+                        break;
+                    case 6:
+                        botoes[i].onClick.RemoveAllListeners();
+                        botoes[i].onClick.AddListener(faca);
+                        botoes[i].GetComponentInChildren<Text>().text = "Faca";
+                        botoes[i].GetComponentInChildren<RawImage>().texture = spritesPoderes[6];
                         break;
                     default:
-                        Debug.LogError("Indice de metodo invalido!");
+                        Debug.LogError("Índice de método inválido!");
                         break;
                 }
 
@@ -160,10 +207,10 @@ public class EscolherPoder : MonoBehaviour
             }
             else
             {
-                // Atribui o metodo SacoDeOuro ao botao sem poder disponivel
+                // Atribui o método SacoDeOuro ao botão sem poder disponível
                 botoes[i].onClick.RemoveAllListeners();
                 botoes[i].onClick.AddListener(SacoDeOuro);
-                botoes[i].GetComponentInChildren<Text>().text = "saco de ouro!";
+                botoes[i].GetComponentInChildren<Text>().text = "Saco de Ouro!";
             }
         }
     }

@@ -11,6 +11,7 @@ public class ControladorJogo : MonoBehaviour
     [SerializeField]private GameObject painelGameOver;
     [SerializeField]private GameObject painelOpcoes;
     [SerializeField]private GameObject painelPoder;
+    
     public GameObject player;
     
     void Update()

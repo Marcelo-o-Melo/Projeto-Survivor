@@ -3,25 +3,30 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float vidaMaxima;
-    public float vidaAtual;
-    [SerializeField] public float xp;
-    [SerializeField] public float xpMaximo;
-    [SerializeField] public int nivel;
+
     public ControladorJogo controladorJogo;
     public MyGUI gui;
     public EscolherPoder escolherPoder;
-    public float velocidade;
-    public GameObject projetilPrefab;
+  
+    public GameObject shurikenPrefab;
+    public GameObject facaPrefab;
     public Transform pontoLancamento;
-    
+
+    public float xp;
+    public float xpMaximo;
+    public int nivel;
+    public float velocidade;
+    public float vidaMaxima;
+    public float vidaAtual;
     public float intervaloDisparo = 1f;
     public float forcaLancamento = 10f;
-    public bool atirando;
     public float distanciaMinima = 20f;
-    public bool regenera;
     public float taxaDeRegeneracao = 0f;
     public float intervaloDeRegeneracao = 1f;
+
+    public bool regenera;
+    public bool atirando;
+    public bool poderFaca;
 
     // Start is called before the first frame update
     void Start()
@@ -33,13 +38,14 @@ public class Player : MonoBehaviour
         velocidade = 5;
         atirando = true;
         regenera = false;
+        poderFaca = false; 
 
         InvokeRepeating("RegenerarVida", intervaloDeRegeneracao, intervaloDeRegeneracao);
 
         StartCoroutine(IntervaloDisparo()); // Inicia a rotina de intervalo de disparo
     }
 
-    void Update()
+    void FixedUpdate()
     {
         float movHori = Input.GetAxis("Horizontal");
         float movVert = Input.GetAxis("Vertical");
@@ -80,7 +86,7 @@ public class Player : MonoBehaviour
 
             xp = xp - xpMaximo;
             nivel++;
-            xpMaximo += 10; //valor comentado para tester de nivel
+            xpMaximo += 10;
             gui.AlterarXp(xp);
             escolherPoder.OnPlayerLevelUp();
             controladorJogo.novoPoder();
@@ -138,7 +144,6 @@ public class Player : MonoBehaviour
 }
 
 
-
     IEnumerator IntervaloDisparo()
     {
         while (true)
@@ -170,32 +175,76 @@ public class Player : MonoBehaviour
         atirando = false;
     }
 
-    private void Disparar()
+private void Disparar()
 {
-    // Procura o alvo
-    GameObject alvo = GameObject.FindGameObjectWithTag("Inimigo");
+    // Get all enemies within the minimum distance
+    GameObject[] inimigos = GameObject.FindGameObjectsWithTag("Inimigo");
+    GameObject alvoMaisProximo = null;
+    float distanciaMaisProxima = Mathf.Infinity;
 
-    if (alvo != null)
+    // Search for the nearest enemy
+    foreach (GameObject inimigo in inimigos)
     {
-        // Calcula a direcao do alvo
-        Vector2 direcaoAlvo = alvo.transform.position - transform.position;
-        float distanciaAlvo = direcaoAlvo.magnitude;   
+        Vector2 direcaoInimigo = inimigo.transform.position - transform.position;
+        float distanciaInimigo = direcaoInimigo.magnitude;
 
-        if (distanciaAlvo <= distanciaMinima)
+        if (distanciaInimigo <= distanciaMinima && distanciaInimigo < distanciaMaisProxima)
         {
-            direcaoAlvo.Normalize();
+            alvoMaisProximo = inimigo;
+            distanciaMaisProxima = distanciaInimigo;
+        }
+    }
 
-            // Gera um projetil
-            GameObject novoProjetil = Instantiate(projetilPrefab, pontoLancamento.position, pontoLancamento.rotation);
+    if (alvoMaisProximo != null)
+    {
+        // Calculate the direction of the nearest enemy
+        Vector2 direcaoAlvo = alvoMaisProximo.transform.position - transform.position;
+        direcaoAlvo.Normalize();
+
+        // Generate the projectiles
+        GameObject novoProjetil;
+
+        if (poderFaca)
+        {
+            // Dispara a faca
+            novoProjetil = Instantiate(facaPrefab, pontoLancamento.position, pontoLancamento.rotation);
             novoProjetil.SetActive(true);
 
-            // Aplica uma forca ao projetil
-            Rigidbody2D projetil = novoProjetil.GetComponent<Rigidbody2D>();
-            if (projetil != null)
+            Rigidbody2D facaRigidbody = novoProjetil.GetComponent<Rigidbody2D>();
+
+            if (facaRigidbody != null)
             {
-                projetil.AddForce(direcaoAlvo * forcaLancamento, ForceMode2D.Impulse);
+                facaRigidbody.AddForce(direcaoAlvo * forcaLancamento, ForceMode2D.Impulse);
+            }
+
+            // Dispara a shuriken
+            novoProjetil = Instantiate(shurikenPrefab, pontoLancamento.position, pontoLancamento.rotation);
+            novoProjetil.SetActive(true);
+
+            Rigidbody2D shurikenRigidbody = novoProjetil.GetComponent<Rigidbody2D>();
+
+            if (shurikenRigidbody != null)
+            {
+                shurikenRigidbody.AddForce(direcaoAlvo * forcaLancamento, ForceMode2D.Impulse);
+            }
+        }
+        else
+        {
+            // Dispara apenas a shuriken
+            novoProjetil = Instantiate(shurikenPrefab, pontoLancamento.position, pontoLancamento.rotation);
+            novoProjetil.SetActive(true);
+
+            Rigidbody2D shurikenRigidbody = novoProjetil.GetComponent<Rigidbody2D>();
+
+            if (shurikenRigidbody != null)
+            {
+                shurikenRigidbody.AddForce(direcaoAlvo * forcaLancamento, ForceMode2D.Impulse);
             }
         }
     }
 }
+
+
+
+
 }
