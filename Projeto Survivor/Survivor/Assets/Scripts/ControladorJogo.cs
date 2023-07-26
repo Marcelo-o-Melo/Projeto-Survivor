@@ -10,7 +10,6 @@ public class ControladorJogo : MonoBehaviour
     [SerializeField]private GameObject painelPause;
     [SerializeField]private GameObject painelGameOver;
     [SerializeField]private GameObject painelOpcoes;
-    [SerializeField]private GameObject painelPoder;
     
     public GameObject player;
     
@@ -34,20 +33,17 @@ public class ControladorJogo : MonoBehaviour
         }
     }
 
-    public void Pausar()
-    {
+    public void Pausar(){
         if (metodoAtivo)
         {
             Debug.Log("Pausar() nao pode ser chamado enquanto o gameOver() esta ativo.");
             return;
         }
-
         Time.timeScale = 0f;
         jogoPausado = true;
         painelPause.SetActive(true);
     }
-    public void ContinuarJogo()
-    {
+    public void ContinuarJogo(){
         Time.timeScale = 1f;
         jogoPausado = false;
         painelPause.SetActive(false);
@@ -62,17 +58,6 @@ public class ControladorJogo : MonoBehaviour
     }
     public void fecharOpcoes(){
         painelOpcoes.SetActive(false);
-    }
-    public void novoPoder(){
-        Time.timeScale = 0f;
-        painelPoder.SetActive(true); 
-    }
-     public void pularPoder(){
-        Time.timeScale = 1f;
-        painelPoder.SetActive(false); 
-    }
-    public void bau(){
-        
     }
     public void voltarMenu(){
         SceneManager.LoadScene(0);

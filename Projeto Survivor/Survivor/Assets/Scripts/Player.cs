@@ -3,10 +3,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-
-    public ControladorJogo controladorJogo;
     public MyGUI gui;
     public EscolherPoder escolherPoder;
+    public EscolherItem escolherItem;
   
     public GameObject shurikenPrefab;
     public GameObject facaPrefab;
@@ -18,6 +17,9 @@ public class Player : MonoBehaviour
     public float velocidade;
     public float vidaMaxima;
     public float vidaAtual;
+
+    public float escudo;
+
     public float intervaloDisparo = 1f;
     public float forcaLancamento = 10f;
     public float distanciaMinima = 20f;
@@ -27,6 +29,7 @@ public class Player : MonoBehaviour
     public bool regenera;
     public bool atirando;
     public bool poderFaca;
+    public bool escudoAtivo;
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +42,7 @@ public class Player : MonoBehaviour
         atirando = true;
         regenera = false;
         poderFaca = false; 
+        escudoAtivo = false;
 
         InvokeRepeating("RegenerarVida", intervaloDeRegeneracao, intervaloDeRegeneracao);
 
@@ -88,8 +92,8 @@ public class Player : MonoBehaviour
             nivel++;
             xpMaximo += 10;
             gui.AlterarXp(xp);
-            escolherPoder.OnPlayerLevelUp();
-            controladorJogo.novoPoder();
+            escolherPoder.AtribuirMetodosAleatorios();
+            escolherPoder.novoPoder();
         }
     }
     
@@ -136,9 +140,19 @@ public class Player : MonoBehaviour
 
         if (inimigo != null)
         {
-            vidaAtual -= inimigo.dano;
-            gui.AlterarVida(vidaAtual);
-            Morrer();
+            if (escudoAtivo == true){
+                escudo -= inimigo.dano;
+                gui.AlterarEscudo(escudo);
+            }
+            if (escudo <= 0){
+                escudoAtivo = false;
+                vidaAtual -= inimigo.dano;
+                escolherItem.gameObjectEscudo.SetActive(false);
+                gui.AlterarVida(vidaAtual);
+
+                Morrer();
+            }
+
         }
     }
 }

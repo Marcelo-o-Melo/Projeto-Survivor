@@ -11,6 +11,7 @@ TagManager:
   - xp5
   - Projetil
   - Inimigo
+  - Caixa
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - inimigo
   - arma
   - xp
-  - 
+  - caixa
   - 
   - 
   - 

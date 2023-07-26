@@ -7,7 +7,6 @@ public class EscolherPoder : MonoBehaviour
     [SerializeField] private GameObject painelPoder;
     public Player player;
     public MyGUI gui;
-    public Xp xp;
     public GerenciadorArmas gerenciadorArmas;
 
     public int contAumentarVida;
@@ -42,7 +41,18 @@ public class EscolherPoder : MonoBehaviour
         contVidaRegen = 0;
         contAumentarDanoArmas = 0;
         contFaca = 0;
-        AtribuirMetodosAleatorios();
+    }
+
+    public void novoPoder(){
+        Time.timeScale = 0f;
+        painelPoder.SetActive(true); 
+    }
+
+     public void pularPoder(){
+        player.xp += player.xpMaximo / 4;
+        gui.AlterarXp(player.xp);
+        Time.timeScale = 1f;
+        painelPoder.SetActive(false); 
     }
 
     public void aumentarVida()
@@ -115,7 +125,7 @@ public class EscolherPoder : MonoBehaviour
         Debug.Log("Você recebeu um saco de ouro!");
     }
 
-    private void AtribuirMetodosAleatorios()
+    public void AtribuirMetodosAleatorios()
     {
         List<int> metodosDisponiveis = new List<int>(metodosIndices);
         List<int> metodosAtribuidos = new List<int>();
@@ -215,8 +225,4 @@ public class EscolherPoder : MonoBehaviour
         }
     }
 
-    public void OnPlayerLevelUp()
-    {
-        AtribuirMetodosAleatorios();
-    }
 }

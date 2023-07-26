@@ -5,29 +5,28 @@ using UnityEngine;
 public class Xp : MonoBehaviour
 
 {
-    public string playerTag = "Player"; // Tag do jogador
-    public float velocidade = 5f;
+    public static float velocidade = 10f;
     public static float distanciaMinima = 3f;
 
     private Transform player;
 
     void Start()
     {
-        Physics2D.IgnoreLayerCollision(gameObject.layer, 8); // xp
-        Physics2D.IgnoreLayerCollision(gameObject.layer, 7); // arma
-        Physics2D.IgnoreLayerCollision(gameObject.layer, 6); // inimigo
-        
-
         // Encontra o jogador com a tag especificada
-        GameObject playerObject = GameObject.FindWithTag(playerTag);
+        GameObject playerObject = GameObject.FindWithTag("Player");
         if (playerObject != null)
         {
             player = playerObject.transform;
         }
         else
         {
-            Debug.LogWarning("Objeto do jogador não encontrado com a tag: " + playerTag);
+            Debug.LogWarning("Objeto do jogador não encontrado com a tag: " + "Player");
         }
+
+        Physics2D.IgnoreLayerCollision(gameObject.layer, 8); // xp
+        Physics2D.IgnoreLayerCollision(gameObject.layer, 7); // arma
+        Physics2D.IgnoreLayerCollision(gameObject.layer, 6); // inimigo
+        
     }
 
     void Update()
@@ -51,7 +50,7 @@ public class Xp : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag(playerTag))
+        if (collision.gameObject.CompareTag("Player"))
         {
             Destroy(gameObject); // Destruir o xp
         }

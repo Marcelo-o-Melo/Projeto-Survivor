@@ -11,7 +11,7 @@ public class Inimigo : MonoBehaviour
     public float vida;
     public float dano;
    
-    void Morrer()
+    public void Morrer()
     {
         GameObject novoXp = Instantiate(XpPrefab, transform.position, Quaternion.identity);
         novoXp.SetActive(true);

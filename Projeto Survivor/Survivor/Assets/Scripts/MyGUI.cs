@@ -7,10 +7,15 @@ public class MyGUI : MonoBehaviour
 {
     public Slider sliderXp;
     public Slider sliderVida;
+    public Slider sliderEscudo;
+
     public Player player;
     public GerenciadorArmas gerenciadorArmas;
     public Xp xpClass;
     public EscolherPoder escolherPoder;
+    public EscolherItem escolherItem;
+    public PoderEspecial poderEspecial;
+
     public Text textoLVL;
     public Text textoXP;
     public Text textoAreaXP;
@@ -21,6 +26,9 @@ public class MyGUI : MonoBehaviour
     public Text txtVidaMaxima;
     public Text textoContadorMortes;
     public Text textoContadorTempo;
+    public Text textoEscudo;
+
+    public Text txtUsosPoder;
 
     public Text textoContadorVdm;
     public Text textoContadorVda;
@@ -35,45 +43,49 @@ public class MyGUI : MonoBehaviour
 
         void Start()
         {
-            sliderXp.interactable = false;
-            sliderVida.interactable = false;
-            AtualizarContador();
+        sliderXp.interactable = false;
+        sliderVida.interactable = false;
+        AtualizarContador();
         }
         void Update()
         {
         tempoDecorrido += Time.deltaTime;
         AtualizarTextoDoContador();
-        if (textoContadorMortes.text != contadorMortes.ToString())
-        {
-            AtualizarContador();
+
+        if (textoContadorMortes.text != contadorMortes.ToString()){
+        AtualizarContador();
         }
 
-        if (player != null)
-        {
-            int lvl = player.GetComponent<Player>().nivel;
-            textoLVL.text = "LVL " + lvl.ToString();
+       
+        int lvl = player.GetComponent<Player>().nivel;
+        textoLVL.text = "LVL " + lvl.ToString();
 
-            float xp = player.GetComponent<Player>().xp;
-            textoXP.text = "XP: " + xp.ToString();
+        float xp = player.GetComponent<Player>().xp;
+        textoXP.text = "XP: " + xp.ToString();
 
-            float vdm = player.GetComponent<Player>().velocidade;
-            txtVdm.text = "Velocidade de movimento: " + vdm.ToString();
+        float vdm = player.GetComponent<Player>().velocidade;
+        txtVdm.text = "Velocidade de movimento: " + vdm.ToString();
             
-            float vda = player.GetComponent<Player>().intervaloDisparo;
-            txtVda.text = "Intervalo de disparo: " + vda.ToString();
+        float vda = player.GetComponent<Player>().intervaloDisparo;
+        txtVda.text = "Intervalo de disparo: " + vda.ToString();
 
-            float vida = player.GetComponent<Player>().vidaAtual;
-            txtVida.text = "Vida atual: " + vida.ToString();
+        float vida = player.GetComponent<Player>().vidaAtual;
+        txtVida.text = "Vida atual: " + vida.ToString();
 
-            float vidaMax = player.GetComponent<Player>().vidaMaxima;
-            txtVidaMaxima.text = "Vida maxima: " + vidaMax.ToString();
+        float vidaMax = player.GetComponent<Player>().vidaMaxima;
+        txtVidaMaxima.text = "Vida maxima: " + vidaMax.ToString();
 
-            float dano = gerenciadorArmas.GetComponent<GerenciadorArmas>().multiplicador;
-            txtDano.text = "Multiplicador de dano: " + dano.ToString();
-        }      
+        float escudo = player.GetComponent<Player>().escudo;
+        textoEscudo.text = "Escudo: " + escudo.ToString();
 
+        float dano = gerenciadorArmas.GetComponent<GerenciadorArmas>().multiplicador;
+        txtDano.text = "Multiplicador de dano: " + dano.ToString();
+              
         float areaXp = Xp.distanciaMinima;
         textoAreaXP.text = "Area xp: " + areaXp.ToString();
+
+        float usos = poderEspecial.GetComponent<PoderEspecial>().usos;
+        txtUsosPoder.text = "" + usos.ToString();
 
         //////////contadores de poder///////////////////////
 
@@ -112,6 +124,12 @@ public class MyGUI : MonoBehaviour
         sliderXp.maxValue = player.xpMaximo;
         sliderXp.value = xp;
         }
+        //////////barra de escudo///////////////
+        public void AlterarEscudo(float escudo) {
+        sliderEscudo.maxValue = escolherItem.valorEscudo;
+        sliderEscudo.value = escudo;
+        }
+
         void AtualizarTextoDoContador()
         {
         int minutos = Mathf.FloorToInt(tempoDecorrido / 60f);
