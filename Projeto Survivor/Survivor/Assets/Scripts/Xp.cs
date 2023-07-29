@@ -8,6 +8,8 @@ public class Xp : MonoBehaviour
     public static float velocidade = 10f;
     public static float distanciaMinima = 3f;
 
+    public float valor;
+
     private Transform player;
 
     void Start()

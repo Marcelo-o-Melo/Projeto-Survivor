@@ -6,8 +6,13 @@ public class EscolherPoder : MonoBehaviour
 {
     [SerializeField] private GameObject painelPoder;
     public Player player;
+    public Disparo disparo;
     public MyGUI gui;
     public GerenciadorArmas gerenciadorArmas;
+
+    public VidaPlayer vidaPlayer;
+    public XpPlayer xpPlayer;
+    public MovimentoPlayer movimentoPlayer;
 
     public int contAumentarVida;
     public int contAumentarVDA;
@@ -18,7 +23,8 @@ public class EscolherPoder : MonoBehaviour
     public int contAumentarDanoArmas;
     public int contFaca;
     public Button[] botoes;
-    public Texture[] spritesPoderes;
+    public Texture[] icones;
+    public Sprite[] background;
 
     private int[] metodosIndices = new int[]
     {
@@ -49,8 +55,8 @@ public class EscolherPoder : MonoBehaviour
     }
 
      public void pularPoder(){
-        player.xp += player.xpMaximo / 4;
-        gui.AlterarXp(player.xp);
+        xpPlayer.xp += xpPlayer.xpMaximo / 4;
+        gui.AlterarXp(xpPlayer.xp);
         Time.timeScale = 1f;
         painelPoder.SetActive(false); 
     }
@@ -58,8 +64,8 @@ public class EscolherPoder : MonoBehaviour
     public void aumentarVida()
     {
         contAumentarVida++;
-        player.vidaMaxima += 10;
-        gui.AlterarVida(player.vidaAtual);
+        vidaPlayer.vidaMaxima += 10;
+        gui.AlterarVida(vidaPlayer.vidaAtual);
         Time.timeScale = 1f;
         painelPoder.SetActive(false);
     }
@@ -67,8 +73,8 @@ public class EscolherPoder : MonoBehaviour
     public void aumentarVDA()
     {
         contAumentarVDA++;
-        player.intervaloDisparo -= 0.1f;
-        player.ReiniciarRotinaDeDisparo(); // Reinicia a rotina de disparo
+        disparo.intervaloDisparo -= 0.1f;
+        disparo.ReiniciarRotinaDeDisparo(); // Reinicia a rotina de disparo
         Time.timeScale = 1f;
         painelPoder.SetActive(false);
     }
@@ -76,7 +82,7 @@ public class EscolherPoder : MonoBehaviour
     public void aumentarVDM()
     {
         contAumentarVDM++;
-        player.velocidade += 10;
+        movimentoPlayer.velocidade += 10;
         Time.timeScale = 1f;
         painelPoder.SetActive(false);
     }
@@ -92,9 +98,9 @@ public class EscolherPoder : MonoBehaviour
     public void vidaRegen()
     {
         contVidaRegen++;
-        player.regenera = true;
-        player.taxaDeRegeneracao += 1f;
-        gui.AlterarVida(player.vidaAtual);
+        vidaPlayer.regenera = true;
+        vidaPlayer.taxaDeRegeneracao += 1f;
+        gui.AlterarVida(vidaPlayer.vidaAtual);
         Time.timeScale = 1f;
         painelPoder.SetActive(false);
     }
@@ -111,7 +117,7 @@ public class EscolherPoder : MonoBehaviour
     public void faca()
     {
         contFaca++;
-        player.poderFaca = true;
+        disparo.poderFaca = true;
         Time.timeScale = 1f;
         painelPoder.SetActive(false);
     }
@@ -169,60 +175,96 @@ public class EscolherPoder : MonoBehaviour
                     case 0:
                         botoes[i].onClick.RemoveAllListeners();
                         botoes[i].onClick.AddListener(aumentarVida);
-                        botoes[i].GetComponentInChildren<Text>().text = "Aumentar Vida";
-                        botoes[i].GetComponentInChildren<RawImage>().texture = spritesPoderes[0]; // Aumentar Vida
+                        botoes[i].transform.Find("tituloCarta").GetComponent<TMPro.TextMeshProUGUI>().text = "Benção do Milharal"; // titulo
+                        botoes[i].transform.Find("textoCarta").GetComponent<TMPro.TextMeshProUGUI>().text = "Aumenta a quantidade de vida máxima que o invocador possui."; // descrição
+                        botoes[i].transform.Find("statusCarta").GetComponent<TMPro.TextMeshProUGUI>().text = "VM.N/"+contAumentarVida; // status
+                        int proxNivelcontAumentarVida = contAumentarVida + 1;
+                        botoes[i].transform.Find("statusCarta+").GetComponent<TMPro.TextMeshProUGUI>().text = "VM.N/+"+proxNivelcontAumentarVida; // status proximo nivel                     
+                        botoes[i].GetComponentInChildren<RawImage>().texture = icones[0]; //icone
+                        botoes[i].GetComponentInChildren<Image>().sprite = background[0]; //fundo
                         break;
                     case 1:
                         botoes[i].onClick.RemoveAllListeners();
                         botoes[i].onClick.AddListener(aumentarVDA);
-                        botoes[i].GetComponentInChildren<Text>().text = "Diminui o intervalo de ataques";
-                        botoes[i].GetComponentInChildren<RawImage>().texture = spritesPoderes[1];
+                        botoes[i].transform.Find("tituloCarta").GetComponent<TMPro.TextMeshProUGUI>().text = "Diminui o intervalo de ataques"; // titulo
+                        botoes[i].transform.Find("textoCarta").GetComponent<TMPro.TextMeshProUGUI>().text = "descrição"; // descrição
+                        botoes[i].transform.Find("statusCarta").GetComponent<TMPro.TextMeshProUGUI>().text = "VDA.N/"+contAumentarVDA; // status
+                        int proxNivelcontAumentarVDA = contAumentarVDA + 1;
+                        botoes[i].transform.Find("statusCarta+").GetComponent<TMPro.TextMeshProUGUI>().text = "VDA.N/+"+proxNivelcontAumentarVDA; // status
+                        botoes[i].GetComponentInChildren<RawImage>().texture = icones[1]; //icone
+                        botoes[i].GetComponentInChildren<Image>().sprite = background[1]; //fundo
                         break;
                     case 2:
                         botoes[i].onClick.RemoveAllListeners();
                         botoes[i].onClick.AddListener(aumentarVDM);
-                        botoes[i].GetComponentInChildren<Text>().text = "Aumentar velocidade de movimento";
-                        botoes[i].GetComponentInChildren<RawImage>().texture = spritesPoderes[2];
+                        botoes[i].transform.Find("tituloCarta").GetComponent<TMPro.TextMeshProUGUI>().text = "O Nascer do Milho"; // titulo
+                        botoes[i].transform.Find("textoCarta").GetComponent<TMPro.TextMeshProUGUI>().text = "Os milhos lhe concederão mais velocidade de movimento."; // descrição
+                        botoes[i].transform.Find("statusCarta").GetComponent<TMPro.TextMeshProUGUI>().text = "VDM.N/"+contAumentarVDM; // status
+                        int proxNivelcontAumentarVDM = contAumentarVDM + 1;
+                        botoes[i].transform.Find("statusCarta+").GetComponent<TMPro.TextMeshProUGUI>().text = "VDM.N/+"+proxNivelcontAumentarVDM; // status
+                        botoes[i].GetComponentInChildren<RawImage>().texture = icones[2]; //icone
+                        botoes[i].GetComponentInChildren<Image>().sprite = background[2]; //fundo
                         break;
                     case 3:
                         botoes[i].onClick.RemoveAllListeners();
                         botoes[i].onClick.AddListener(aumentarIma);
-                        botoes[i].GetComponentInChildren<Text>().text = "Aumentar Área do Ímã";
-                        botoes[i].GetComponentInChildren<RawImage>().texture = spritesPoderes[3];
+                        botoes[i].transform.Find("tituloCarta").GetComponent<TMPro.TextMeshProUGUI>().text = "ima"; // titulo
+                        botoes[i].transform.Find("textoCarta").GetComponent<TMPro.TextMeshProUGUI>().text = "descrição"; // descrição
+                        botoes[i].transform.Find("statusCarta").GetComponent<TMPro.TextMeshProUGUI>().text = "IMA.N/"+contAumentarIma; // status
+                        int proxNivelcontAumentarIma = contAumentarIma + 1;
+                        botoes[i].transform.Find("statusCarta+").GetComponent<TMPro.TextMeshProUGUI>().text = "IMA.N/+"+proxNivelcontAumentarIma; // status
+                        botoes[i].GetComponentInChildren<RawImage>().texture = icones[3]; //icone 
+                        botoes[i].GetComponentInChildren<Image>().sprite = background[3]; //fundo
                         break;
                     case 4:
                         botoes[i].onClick.RemoveAllListeners();
                         botoes[i].onClick.AddListener(vidaRegen);
-                        botoes[i].GetComponentInChildren<Text>().text = "Regeneração de Vida";
-                        botoes[i].GetComponentInChildren<RawImage>().texture = spritesPoderes[4];
+                        botoes[i].transform.Find("tituloCarta").GetComponent<TMPro.TextMeshProUGUI>().text = "Nutrição do Trigo"; // titulo
+                        botoes[i].transform.Find("textoCarta").GetComponent<TMPro.TextMeshProUGUI>().text = "Aumenta a quantidade de regeneração máxima que o invocador possui."; // descrição
+                        botoes[i].transform.Find("statusCarta").GetComponent<TMPro.TextMeshProUGUI>().text = "REGEN.N/"+contVidaRegen; // status
+                        int proxNivelcontVidaRegen = contVidaRegen + 1;
+                        botoes[i].transform.Find("statusCarta+").GetComponent<TMPro.TextMeshProUGUI>().text = "REGEN.N/+"+proxNivelcontVidaRegen; // status
+                        botoes[i].GetComponentInChildren<RawImage>().texture = icones[4]; //icone
+                        botoes[i].GetComponentInChildren<Image>().sprite = background[4]; //fundo
                         break;
                     case 5:
                         botoes[i].onClick.RemoveAllListeners();
                         botoes[i].onClick.AddListener(aumentarDanoArmas);
-                        botoes[i].GetComponentInChildren<Text>().text = "Aumentar Dano das Armas";
-                        botoes[i].GetComponentInChildren<RawImage>().texture = spritesPoderes[5];
+                        botoes[i].transform.Find("tituloCarta").GetComponent<TMPro.TextMeshProUGUI>().text = "Aumentar Dano das Armas"; // titulo
+                        botoes[i].transform.Find("textoCarta").GetComponent<TMPro.TextMeshProUGUI>().text = "descrição"; // descrição
+                        botoes[i].transform.Find("statusCarta").GetComponent<TMPro.TextMeshProUGUI>().text = "DANO.N/"+contAumentarDanoArmas; // status
+                        int proxNivelcontAumentarDanoArmas = contAumentarDanoArmas + 1;
+                        botoes[i].transform.Find("statusCarta+").GetComponent<TMPro.TextMeshProUGUI>().text = "DANO.N/+"+proxNivelcontAumentarDanoArmas; // status
+                        botoes[i].GetComponentInChildren<RawImage>().texture = icones[5]; //icone
+                        botoes[i].GetComponentInChildren<Image>().sprite = background[5]; //fundo
                         break;
                     case 6:
                         botoes[i].onClick.RemoveAllListeners();
                         botoes[i].onClick.AddListener(faca);
-                        botoes[i].GetComponentInChildren<Text>().text = "Faca";
-                        botoes[i].GetComponentInChildren<RawImage>().texture = spritesPoderes[6];
+                        botoes[i].transform.Find("tituloCarta").GetComponent<TMPro.TextMeshProUGUI>().text = "Faca"; // titulo
+                        botoes[i].transform.Find("textoCarta").GetComponent<TMPro.TextMeshProUGUI>().text = "descrição"; // descrição
+                        botoes[i].transform.Find("statusCarta").GetComponent<TMPro.TextMeshProUGUI>().text = "FACA.N/"+contFaca; // status
+                        int proxNivelcontFaca = contFaca + 1;
+                        botoes[i].transform.Find("statusCarta+").GetComponent<TMPro.TextMeshProUGUI>().text = "FACA.N/+"+proxNivelcontFaca; // status
+                        botoes[i].GetComponentInChildren<RawImage>().texture = icones[6]; //icone
+                        botoes[i].GetComponentInChildren<Image>().sprite = background[6]; //fundo
+
                         break;
                     default:
-                        Debug.LogError("Índice de método inválido!");
+                        Debug.LogError("Indice de metodo invalido!");
                         break;
                 }
 
                 metodosDisponiveis.Remove(metodoIndex);
+
             }
             else
             {
-                // Atribui o método SacoDeOuro ao botão sem poder disponível
-                botoes[i].onClick.RemoveAllListeners();
-                botoes[i].onClick.AddListener(SacoDeOuro);
-                botoes[i].GetComponentInChildren<Text>().text = "Saco de Ouro!";
+            // Esconder o botão quando não há mais poderes disponíveis
+            botoes[i].gameObject.SetActive(false);
             }
         }
     }
+    
 
 }

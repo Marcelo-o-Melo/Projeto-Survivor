@@ -11,6 +11,10 @@ public class EscolherItem : MonoBehaviour
     public MyGUI gui;
     public GameObject gameObjectEscudo;
 
+    public VidaPlayer vidaPlayer;
+    public XpPlayer xpPlayer;
+    public MovimentoPlayer movimentoPlayer;
+
     public float valorEscudo;
     public float nukeRadius; // Raio de efeito do nuke
 
@@ -24,14 +28,14 @@ public class EscolherItem : MonoBehaviour
     };
 
     void frango(){
-        player.vidaAtual = player.vidaMaxima;
-        gui.AlterarVida(player.vidaAtual);
+        vidaPlayer.vidaAtual = vidaPlayer.vidaMaxima;
+        gui.AlterarVida(vidaPlayer.vidaAtual);
         StartCoroutine(AtivarItemHolderPorCincoSegundos());
     }
     void escudo(){
-        player.escudo = valorEscudo;
-        gui.AlterarEscudo(player.escudo);
-        player.escudoAtivo = true;
+        vidaPlayer.escudo = valorEscudo;
+        gui.AlterarEscudo(vidaPlayer.escudo);
+        vidaPlayer.escudoAtivo = true;
         gameObjectEscudo.SetActive(true);
         StartCoroutine(AtivarItemHolderPorCincoSegundos());
     }

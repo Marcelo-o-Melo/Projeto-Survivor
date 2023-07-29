@@ -4,14 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - xp1
-  - xp2
-  - xp3
-  - xp4
-  - xp5
   - Projetil
   - Inimigo
   - Caixa
+  - Xp
   layers:
   - Default
   - TransparentFX

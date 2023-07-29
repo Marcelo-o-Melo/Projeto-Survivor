@@ -9,12 +9,17 @@ public class MyGUI : MonoBehaviour
     public Slider sliderVida;
     public Slider sliderEscudo;
 
+    public Disparo disparo;
     public Player player;
     public GerenciadorArmas gerenciadorArmas;
     public Xp xpClass;
     public EscolherPoder escolherPoder;
     public EscolherItem escolherItem;
     public PoderEspecial poderEspecial;
+
+    public VidaPlayer vidaPlayer;
+    public XpPlayer xpPlayer;
+    public MovimentoPlayer movimentoPlayer;
 
     public Text textoLVL;
     public Text textoXP;
@@ -36,6 +41,7 @@ public class MyGUI : MonoBehaviour
     public Text textoContadorIma;
     public Text textoContadorRegen;
     public Text textoContadorDano;
+    public Text textoContadorFaca;
 
     public static float tempoDecorrido = 0f;
     public static int contadorMortes = 0;
@@ -56,26 +62,26 @@ public class MyGUI : MonoBehaviour
         AtualizarContador();
         }
 
-       
-        int lvl = player.GetComponent<Player>().nivel;
+       if(player != null){
+        int lvl = xpPlayer.GetComponent<XpPlayer>().nivel;
         textoLVL.text = "LVL " + lvl.ToString();
 
-        float xp = player.GetComponent<Player>().xp;
+        float xp = xpPlayer.GetComponent<XpPlayer>().xp;
         textoXP.text = "XP: " + xp.ToString();
 
-        float vdm = player.GetComponent<Player>().velocidade;
+        float vdm = movimentoPlayer.GetComponent<MovimentoPlayer>().velocidade;
         txtVdm.text = "Velocidade de movimento: " + vdm.ToString();
             
-        float vda = player.GetComponent<Player>().intervaloDisparo;
+        float vda = disparo.GetComponent<Disparo>().intervaloDisparo;
         txtVda.text = "Intervalo de disparo: " + vda.ToString();
 
-        float vida = player.GetComponent<Player>().vidaAtual;
+        float vida = vidaPlayer.GetComponent<VidaPlayer>().vidaAtual;
         txtVida.text = "Vida atual: " + vida.ToString();
 
-        float vidaMax = player.GetComponent<Player>().vidaMaxima;
+        float vidaMax = vidaPlayer.GetComponent<VidaPlayer>().vidaMaxima;
         txtVidaMaxima.text = "Vida maxima: " + vidaMax.ToString();
 
-        float escudo = player.GetComponent<Player>().escudo;
+        float escudo = vidaPlayer.GetComponent<VidaPlayer>().escudo;
         textoEscudo.text = "Escudo: " + escudo.ToString();
 
         float dano = gerenciadorArmas.GetComponent<GerenciadorArmas>().multiplicador;
@@ -86,6 +92,9 @@ public class MyGUI : MonoBehaviour
 
         float usos = poderEspecial.GetComponent<PoderEspecial>().usos;
         txtUsosPoder.text = "" + usos.ToString();
+
+       }
+        
 
         //////////contadores de poder///////////////////////
 
@@ -107,6 +116,9 @@ public class MyGUI : MonoBehaviour
         int contDano = escolherPoder.GetComponent<EscolherPoder>().contAumentarDanoArmas;
         textoContadorDano.text = "dano: " + contDano.ToString();
 
+        int contFaca = escolherPoder.GetComponent<EscolherPoder>().contFaca;
+        textoContadorFaca.text = "faca: " + contFaca.ToString();
+
         ////////////////////////////////////////////////////////////
 
         }
@@ -116,12 +128,12 @@ public class MyGUI : MonoBehaviour
         }
         //////////barra de vida///////////////
         public void AlterarVida(float vida) {
-        sliderVida.maxValue = player.vidaMaxima;
+        sliderVida.maxValue = vidaPlayer.vidaMaxima;
         sliderVida.value = vida;
         }
         ////////////barra de xp////////////////
         public void AlterarXp(float xp) {
-        sliderXp.maxValue = player.xpMaximo;
+        sliderXp.maxValue = xpPlayer.xpMaximo;
         sliderXp.value = xp;
         }
         //////////barra de escudo///////////////
