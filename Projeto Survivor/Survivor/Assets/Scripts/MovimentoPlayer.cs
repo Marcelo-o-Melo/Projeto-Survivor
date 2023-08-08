@@ -6,7 +6,7 @@ public class MovimentoPlayer : MonoBehaviour
 {
  public float velocidade;
 
-    void FixedUpdate()
+    void Update()
     {
         float movHori = Input.GetAxis("Horizontal");
         float movVert = Input.GetAxis("Vertical");

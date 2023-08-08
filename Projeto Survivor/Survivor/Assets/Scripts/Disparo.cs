@@ -8,11 +8,10 @@ public class Disparo : MonoBehaviour
     public EscolherPoder escolherPoder;
     public EscolherItem escolherItem;
     public Mira mira;
-  
-    public GameObject shurikenPrefab;
-    public GameObject facaPrefab;
-    public Transform pontoLancamentoPrimario;
 
+    public Pool poolProjetilShuriken;
+    public Pool poolProjetilFaca;
+  
     public Transform pontoLancamento1;
     public Transform pontoLancamento2;
     public Transform pontoLancamento3;
@@ -24,7 +23,7 @@ public class Disparo : MonoBehaviour
     public Vector2 direcaoAlvo;
 
     public float intervaloDisparo = 1f;
-    public float forcaLancamento = 10f;
+    public float forcaLancamento;
     public float distanciaMinima = 20f;
 
     public bool atirando;
@@ -33,7 +32,8 @@ public class Disparo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        atirando = true;
+        forcaLancamento = EscolherPoder.multiplicadorVelocidadeProjetil /10;
+        //atirando = true;
         poderFaca = false; 
 
         StartCoroutine(IntervaloDisparo()); // Inicia a rotina de intervalo de disparo
@@ -70,34 +70,31 @@ public class Disparo : MonoBehaviour
     {
         atirando = false;
     }
-
-    void DispararProjetil(GameObject prefab, Transform pontoLancamento, Vector2 direcaoAlvo, float forcaLancamento)
+    void DispararProjetilShuriken(Transform pontoLancamento, Vector2 direcaoAlvo, float forcaLancamento)
     {
-        GameObject novoProjetil = Instantiate(prefab, pontoLancamento.position, pontoLancamento.rotation);
-        novoProjetil.SetActive(true);
+        ///////// OBJECT POOOLING ////////
+        GameObject projetilShuriken = poolProjetilShuriken.GetObjetos();
 
-        Rigidbody2D projetilRigidbody = novoProjetil.GetComponent<Rigidbody2D>();
-
-        projetilRigidbody.AddForce(direcaoAlvo * forcaLancamento, ForceMode2D.Impulse);
-
-        if (prefab == shurikenPrefab)
+        if (projetilShuriken != null)
         {
-        RotacaoProjetil rotacaoProjetil = novoProjetil.GetComponent<RotacaoProjetil>();
-        if (rotacaoProjetil != null)
-        {
-            rotacaoProjetil.rotationSpeed = 200f; // You can adjust the rotation speed here if needed.
+            projetilShuriken.SetActive(true);
+            projetilShuriken.transform.position = pontoLancamento.position;
+            Rigidbody2D projetilRigidbody = projetilShuriken.GetComponent<Rigidbody2D>();
+            projetilRigidbody.AddForce(direcaoAlvo * forcaLancamento, ForceMode2D.Impulse);
         }
-        }
+    }
+     void DispararProjetilFaca(Transform pontoLancamento, Vector2 direcaoAlvo, float forcaLancamento)
+    {
+        ///////// OBJECT POOOLING ////////
+        GameObject projetilFaca = poolProjetilFaca.GetObjetos();
 
-        if (prefab == facaPrefab)
+        if (projetilFaca != null)
         {
-        RotacaoProjetil rotacaoProjetil = novoProjetil.GetComponent<RotacaoProjetil>();
-        if (rotacaoProjetil != null)
-        {
-            rotacaoProjetil.rotationSpeed = 200f; // You can adjust the rotation speed here if needed.
+            projetilFaca.SetActive(true);
+            projetilFaca.transform.position = pontoLancamento.position;
+            Rigidbody2D projetilRigidbody = projetilFaca.GetComponent<Rigidbody2D>();
+            projetilRigidbody.AddForce(direcaoAlvo * forcaLancamento, ForceMode2D.Impulse);
         }
-        }
-
     }
 
     public void Disparar()
@@ -112,18 +109,18 @@ public class Disparo : MonoBehaviour
             
             if (escolherPoder.contFaca >= 1)
             {
-                DispararProjetil(facaPrefab, pontoLancamento1, direcaoAlvo, forcaLancamento);  
+                DispararProjetilFaca(pontoLancamento3, direcaoAlvo, forcaLancamento);  
             }
             if (escolherPoder.contFaca >= 3)
             {
-                DispararProjetil(facaPrefab, pontoLancamento2, direcaoAlvo, forcaLancamento);  
+                DispararProjetilFaca(pontoLancamento2, direcaoAlvo, forcaLancamento);  
             }
             if (escolherPoder.contFaca >= 5)
             {
-                DispararProjetil(facaPrefab, pontoLancamento3, direcaoAlvo, forcaLancamento);  
+                DispararProjetilFaca(pontoLancamento1, direcaoAlvo, forcaLancamento);  
             }
             
-            DispararProjetil(shurikenPrefab, pontoLancamentoPrimario, direcaoAlvo, forcaLancamento);
+            DispararProjetilShuriken(pontoLancamento3, direcaoAlvo, forcaLancamento);
         }
         
     }

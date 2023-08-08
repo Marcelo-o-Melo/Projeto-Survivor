@@ -20,12 +20,6 @@ public class Recorde : MonoBehaviour
         AtualizarRecorde();
     }
 
-    void Update()
-    {
-        // Se quiser atualizar o recorde em tempo real durante o jogo,
-        // basta chamar AtualizarRecorde() no lugar certo, como após a contagem de mortes ou tempo decorrido.
-    }
-
     // Método para atualizar o recorde e exibir os valores atualizados nos Text components.
     void AtualizarRecorde()
     {
@@ -46,7 +40,7 @@ public class Recorde : MonoBehaviour
         }
 
         // Exibe os valores atualizados nos Text components
-        textoMortes.text = "Inimigos Mortos: " + contMortes.ToString();
+        textoMortes.text = "Inimigos Mortos: " + contMortes;
 
         int minutos = Mathf.FloorToInt(contTempo / 60f);
         int segundos = Mathf.FloorToInt(contTempo % 60f);

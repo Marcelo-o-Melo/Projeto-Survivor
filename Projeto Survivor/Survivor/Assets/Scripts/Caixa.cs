@@ -10,10 +10,8 @@ public class Caixa : MonoBehaviour
     
     void Start()
     {
-        Physics2D.IgnoreLayerCollision(gameObject.layer, 8); // xp
         Physics2D.IgnoreLayerCollision(gameObject.layer, 6); // inimigo
         Physics2D.IgnoreLayerCollision(gameObject.layer, 7); //arma
-        
     }
 
      void OnCollisionEnter2D(Collision2D collision)
@@ -22,8 +20,7 @@ public class Caixa : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             item.itemAleatorio();
-            Destroy(gameObject);
-
+            this.gameObject.SetActive(false);
         }
     }
 }

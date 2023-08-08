@@ -1,15 +1,22 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RotacaoProjetil : MonoBehaviour
 {
- public float rotationSpeed = 200f;
+    public float rotationSpeed = 200f;
 
-    // Update is called once per frame
-    void Update()
+    private Rigidbody2D rb2D;
+
+    private void Awake()
     {
-        // Rotate the shuriken around its Z-axis
-        transform.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
+        // Cache the Rigidbody2D component
+        rb2D = GetComponent<Rigidbody2D>();
     }
+
+    private void Update()
+    {
+        // Start the coroutine for rotation
+        rb2D.angularVelocity = rotationSpeed;
+    }
+
 }

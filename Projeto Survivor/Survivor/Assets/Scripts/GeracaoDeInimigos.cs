@@ -4,79 +4,72 @@ using UnityEngine;
 
 public class GeracaoDeInimigos : MonoBehaviour
 {
-    public GameObject inimigoPrefabComum;
-    public GameObject inimigoPrefabRaro;
+    public Pool poolInimigoLVL1;
+    public Pool poolInimigoLVL2;
+
+    GameObject inimigo1;
+    GameObject inimigo2;
+
     public float intervaloGeracao = 5f;
     public float distanciaMaxima = 12f;
     public float distanciaMinima = 10f;
 
-    public string playerTag = "Player"; // Tag do jogador
+    public int nivelInimigos;
 
-    private Transform player;
+    [SerializeField]private Transform player;
 
-    private bool spawnInimigoRaro = false;
-    private int nivel = 1;
-    private int quantidadeInimigosPorNivel = 2;
+    private bool spawnInimigoLevel1 = true;
+    private bool spawnInimigoLevel2 = false;
 
     void Start()
     {
+        nivelInimigos = 1;
         // Inicia a corrotina de geracao de monstros
         StartCoroutine(GerarMonstrosPeriodicamente());
         StartCoroutine(AtivarSpawnInimigoRaro());
 
-        // Encontra o jogador com a tag especificada
-        GameObject playerObject = GameObject.FindWithTag(playerTag);
-        if (playerObject != null)
-        {
-            player = playerObject.transform;
-        }
-        else
-        {
-            Debug.LogWarning("Objeto do jogador não encontrado com a tag: " + playerTag);
-        }
-
-        InvokeRepeating("AumentarNivel", 60f, 60f);
+        InvokeRepeating("DiminuirIntervalo", 60f, 60f);
     }
       
-
     IEnumerator GerarMonstrosPeriodicamente()
     {
         while (true)
         {
             if (player != null)
             {
-                for (int i = 0; i < quantidadeInimigosPorNivel; i++)
+                /// pega os inimigos da pool ///
+                inimigo1 = poolInimigoLVL1.GetObjetos();
+                inimigo2 = poolInimigoLVL2.GetObjetos();
+
+                // Verifica se o inimigo 1 deve ser gerado
+                if (spawnInimigoLevel1 && inimigo1 != null)
                 {
-                    // Calcula uma posicao aleatoria dentro da distancia maxima para o inimigo comum
-                    Vector2 posicaoAleatoriaComum = (Vector2)player.position + Random.insideUnitCircle * distanciaMaxima;
+                    // Calcula uma nova posicao aleatoria para o inimigo
+                    Vector2 posicaoLevel1 = (Vector2)player.position + Random.insideUnitCircle * distanciaMaxima;
+                    float distancia = Vector2.Distance(posicaoLevel1, player.position);
 
                     // Verifica a distancia minima entre a posicao aleatoria e o personagem
-                    float distanciaComum = Vector2.Distance(posicaoAleatoriaComum, player.position);
-                    if (distanciaComum >= distanciaMinima)
+                    if(distancia >= distanciaMinima){
+                        inimigo1.SetActive(true);
+                        inimigo1.transform.position = posicaoLevel1;
+                    }                 
+                }
+
+                // Verifica se o inimigo 2 deve ser gerado
+                if (spawnInimigoLevel2 && inimigo2 != null)
+                {
+                    // Calcula uma nova posicao aleatoria para o inimigo
+                    Vector2 posicaoLevel2 = (Vector2)player.position + Random.insideUnitCircle * distanciaMaxima;
+                    float distancia = Vector2.Distance(posicaoLevel2, player.position);
+
+                    // Verifica a distancia minima entre a posicao aleatoria e o personagem
+                    if (distancia >= distanciaMinima)
                     {
-                        // Cria uma copia do prefab do monstro comum
-                        GameObject novoMonstro = Instantiate(inimigoPrefabComum, posicaoAleatoriaComum, Quaternion.identity);
-                        novoMonstro.SetActive(true);
-
-                        // Verifica se o inimigo raro deve ser gerado
-                        if (spawnInimigoRaro)
-                        {
-                            // Calcula uma nova posicao aleatoria para o inimigo raro
-                            Vector2 posicaoAleatoriaRaro = (Vector2)player.position + Random.insideUnitCircle * distanciaMaxima;
-
-                            // Verifica a distancia minima entre a posicao aleatoria e o personagem
-                            float distanciaRaro = Vector2.Distance(posicaoAleatoriaRaro, player.position);
-                            if (distanciaRaro >= distanciaMinima)
-                            {
-                                // Cria uma copia do prefab do monstro raro
-                                GameObject novoMonstroRaro = Instantiate(inimigoPrefabRaro, posicaoAleatoriaRaro, Quaternion.identity);
-                                novoMonstroRaro.SetActive(true);
-                            }
-                        }
+                        inimigo2.SetActive(true);
+                        inimigo2.transform.position = posicaoLevel2;
                     }
                 }
             }
-            
             // Aguarda o intervalo de geracao
             yield return new WaitForSeconds(intervaloGeracao);
         }
@@ -85,19 +78,17 @@ public class GeracaoDeInimigos : MonoBehaviour
     IEnumerator AtivarSpawnInimigoRaro()
     {
         yield return new WaitForSeconds(30f);
-        spawnInimigoRaro = true;
-    }
-
-    void AtualizarNivel()
-    {
-        // Atualiza a quantidade de inimigos por nível com base no nível atual
-        quantidadeInimigosPorNivel = nivel * 2;
+        spawnInimigoLevel2 = true;
     }
 
     // Método para aumentar o nível (chamado quando necessário)
-    void AumentarNivel()
+
+    void DiminuirIntervalo()
     {
-        nivel++;
-        AtualizarNivel();
+        if (intervaloGeracao > 0 )
+        {
+            intervaloGeracao *= 0.90f;
+            
+        }
     }
 }

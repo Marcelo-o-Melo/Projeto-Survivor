@@ -33,9 +33,9 @@ public class EscolherItem : MonoBehaviour
         StartCoroutine(AtivarItemHolderPorCincoSegundos());
     }
     void escudo(){
-        vidaPlayer.escudo = valorEscudo;
-        gui.AlterarEscudo(vidaPlayer.escudo);
-        vidaPlayer.escudoAtivo = true;
+        vidaPlayer.escudoItem = valorEscudo;
+        gui.AlterarEscudoItem(vidaPlayer.escudoItem);
+        vidaPlayer.escudoAtivoItem = true;
         gameObjectEscudo.SetActive(true);
         StartCoroutine(AtivarItemHolderPorCincoSegundos());
     }

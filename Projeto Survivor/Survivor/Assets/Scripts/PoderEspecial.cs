@@ -10,15 +10,11 @@ public class PoderEspecial : MonoBehaviour
     
     void Update(){
         if(usos > 0){
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetButtonDown("Submit"))
             {
                 usos--;
                 escolherItem.MatarInimigosProximos();
-                Debug.Log("Usos restantes: " + usos);
             }
-        }
-        else{
-            Debug.Log("acabou a nuke sexual");
         }
 
     }

@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class GeracaoDeCaixas : MonoBehaviour
 {
-    public GameObject PrefabCaixa;
+    public Pool poolCaixa;
+    GameObject caixa;
 
-    public string playerTag = "Player"; // Tag do jogador
-
-    private Transform player;
-    public float intervaloGeracao = 5f;
+    [SerializeField]private Transform player;
+    public float intervalo = 5f;
     public float distanciaMaxima = 12f;
     public float distanciaMinima = 10f;
 
@@ -17,47 +16,34 @@ public class GeracaoDeCaixas : MonoBehaviour
         {
             // Inicia a corrotina de geracao de monstros
             StartCoroutine(GerarCaixaPeriodicamente());
-
-            // Encontra o jogador com a tag especificada
-            GameObject playerObject = GameObject.FindWithTag(playerTag);
-            if (playerObject != null)
-            {
-                player = playerObject.transform;
-            }
-            else
-            {
-                Debug.LogWarning("Objeto do jogador não encontrado com a tag: " + playerTag);
-            }
-
         }
         
-
         IEnumerator GerarCaixaPeriodicamente()
         {
             while (true)
             {
                 if (player != null)
                 {
-                   
-                        // Calcula uma posicao aleatoria dentro da distancia maxima para o inimigo comum
-                        Vector2 posicaoAleatoria = (Vector2)player.position + Random.insideUnitCircle * distanciaMaxima;
+                    caixa = poolCaixa.GetObjetos();
+                    // Calcula uma posicao aleatoria dentro da distancia maxima para o inimigo comum
+                    Vector2 posicaoAleatoria = (Vector2)player.position + Random.insideUnitCircle * distanciaMaxima;
+                    // Verifica a distancia minima entre a posicao aleatoria e o personagem
+                    float distancia = Vector2.Distance(posicaoAleatoria, player.position);
 
-                        // Verifica a distancia minima entre a posicao aleatoria e o personagem
-                        float distancia = Vector2.Distance(posicaoAleatoria, player.position);
-                        
+                    if(caixa != null)
+                    {
                         if (distancia >= distanciaMinima)
-                        {
-                            // Cria uma copia do prefab do monstro comum
-                            GameObject novaCaixa = Instantiate(PrefabCaixa, posicaoAleatoria, Quaternion.identity);
-                            novaCaixa.SetActive(true);
-
+                        {                         
+                        caixa.SetActive(true);
+                        caixa.transform.position = posicaoAleatoria;
                         }
-                    
+                    }
                 }
                 
                 // Aguarda o intervalo de geracao
-                yield return new WaitForSeconds(intervaloGeracao);
+                yield return new WaitForSeconds(intervalo);
             }
+            
         }
 
 }

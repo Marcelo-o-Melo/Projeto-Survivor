@@ -4,34 +4,27 @@ using UnityEngine;
 
 public class MovimentoInimigo : MonoBehaviour
 {
-    public string playerTag = "Player"; // Tag do jogador
     public float velocidade = 5f;
 
-    private Transform player;
-
-    void Start(){
-        // Encontra o jogador com a tag especificada
-        GameObject playerObject = GameObject.FindWithTag(playerTag);
-        if (playerObject != null)
-        {
-            player = playerObject.transform;
-        }
-        else
-        {
-            Debug.LogWarning("Objeto do jogador não encontrado com a tag: " + playerTag);
-        }
-    }
+    [SerializeField]private Transform player;
+    private Vector2 direcao;
 
     void Update()
     {
         if (player != null)
         {
             // Calcula a direcao para o player
-            Vector3 direcao = player.position - transform.position;
+            direcao = player.position - transform.position;
+            //direcao.y = 0f; // Mantém o inimigo na mesma altura do player, se necessário.
             direcao.Normalize();
 
             // Move o NPC na direcao do player
-            transform.position += direcao * velocidade * Time.deltaTime;
+            transform.Translate(direcao * velocidade * Time.deltaTime);
+
+            // Olha para o jogador (ajusta a rotação na direção do jogador)
+            //transform.right = player.position - transform.position;
+
+
         }
     }
 }

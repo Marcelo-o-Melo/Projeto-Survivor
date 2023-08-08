@@ -5,34 +5,79 @@ using UnityEngine.UI;
 
 public class Inimigo : MonoBehaviour
 {
-    public GameObject XpPrefab;
-    public Projetil projetil;
+    public Pool poolXp;
+    public GeracaoDeInimigos geracao;
+    GameObject xp;
 
-    public float vida;
+    public float vidaMaxima;
+    public float vidaAtual;
     public float dano;
-   
+
+
+   private void OnEnable() 
+   {
+        AtualizarVidaAtual();
+   }
+
+
+    void Start()
+    {
+        InvokeRepeating("AumentarStatus", 60f, 60f);
+    }
+
     public void Morrer()
     {
-        GameObject novoXp = Instantiate(XpPrefab, transform.position, Quaternion.identity);
-        novoXp.SetActive(true);
-        Destroy(gameObject);
+        xp = poolXp.GetObjetos();
+        if(xp != null){
+            xp.SetActive(true);
+            xp.transform.position = gameObject.transform.position;
+        }
+        
         MyGUI.contadorMortes++;
+        gameObject.SetActive(false);
+    }
+
+    public void VerificarVida()
+    {
+        if (vidaAtual <= 0)
+        {
+            Morrer();
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Projetil projetil = collision.gameObject.GetComponent<Projetil>();
-
-        if (projetil != null)
+        if (collision.gameObject.CompareTag("Projetil"))
         {
-            vida -= projetil.danoFinal;
+            Projetil projetil = collision.gameObject.GetComponent<Projetil>();
+            vidaAtual -= projetil.danoFinal;
 
-            if (vida <= 0)
-            {
-                Morrer();
-            }
-
-            Destroy(projetil.gameObject);
+            VerificarVida();
         }
     }
+
+    private void OnTriggerStay2D(Collider2D other) {
+        if (other.gameObject.CompareTag("Projetil"))
+        {
+            Projetil projetil = other.gameObject.GetComponent<Projetil>();
+            vidaAtual -= projetil.danoFinal;
+
+            VerificarVida();
+        }
+    }
+
+    void AumentarStatus()
+    {
+        vidaMaxima *= 1.2f;
+        dano *= 1.4f;
+        AtualizarVidaAtual();
+    }
+
+    // Método para atualizar a vida atual com base na vida máxima atual
+    void AtualizarVidaAtual()
+    {
+        vidaAtual = vidaMaxima;
+    }
+
+
 }

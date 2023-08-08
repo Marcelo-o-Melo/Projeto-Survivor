@@ -20,15 +20,16 @@ public class Player : MonoBehaviour
 
     }
     
-    void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D other) 
     {
-        if (collision.gameObject.CompareTag("Xp"))
+        if (other.gameObject.CompareTag("Xp"))
         {
-            Xp xpObject = collision.gameObject.GetComponent<Xp>();
+            Xp xpObject = other.gameObject.GetComponent<Xp>();
             xpPlayer.xp += xpObject.valor;
             gui.AlterarXp(xpPlayer.xp);
             xpPlayer.SubirNivel();
         }
+        
     }
 
 }
