@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class MovimentoPlayer : MonoBehaviour
 {
- public float velocidade;
+    public FixedJoystick joystick;
+    public float velocidade;
+    public float movHori;
+    public float movVert;
 
     void Update()
     {
-        float movHori = Input.GetAxis("Horizontal");
-        float movVert = Input.GetAxis("Vertical");
+        movHori = joystick.Horizontal;
+        movVert = joystick.Vertical;
 
         Vector2 deslocamento = new Vector2(movHori, movVert) * velocidade * Time.deltaTime;
 

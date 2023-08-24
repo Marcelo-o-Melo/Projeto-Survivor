@@ -9,7 +9,6 @@ public class AudioController : MonoBehaviour
 
     void Start()
     {
-        valorSlider = 0.5f;
         // Configurar o valor inicial do slider e obter o componente AudioSource
         sliderMusica.minValue = 0;
         sliderMusica.maxValue = 1;

@@ -7,21 +7,19 @@ public class Inimigo : MonoBehaviour
 {
     public Pool poolXp;
     public GeracaoDeInimigos geracao;
-    GameObject xp;
+    public GameObject xp;
 
     public float vidaMaxima;
     public float vidaAtual;
     public float dano;
 
-
    private void OnEnable() 
    {
         AtualizarVidaAtual();
    }
-
-
     void Start()
     {
+        Physics2D.IgnoreLayerCollision(gameObject.layer, 10); //terreno
         InvokeRepeating("AumentarStatus", 60f, 60f);
     }
 
@@ -45,18 +43,16 @@ public class Inimigo : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Projetil"))
+    private void OnTriggerStay2D(Collider2D other) {
+        if (other.gameObject.CompareTag("Projetil"))
         {
-            Projetil projetil = collision.gameObject.GetComponent<Projetil>();
+            Projetil projetil = other.gameObject.GetComponent<Projetil>();
             vidaAtual -= projetil.danoFinal;
 
             VerificarVida();
         }
     }
-
-    private void OnTriggerStay2D(Collider2D other) {
+    private void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.CompareTag("Projetil"))
         {
             Projetil projetil = other.gameObject.GetComponent<Projetil>();
@@ -68,8 +64,8 @@ public class Inimigo : MonoBehaviour
 
     void AumentarStatus()
     {
-        vidaMaxima *= 1.2f;
-        dano *= 1.4f;
+        vidaMaxima *= 1.5f;
+        dano *= 1.5f;
         AtualizarVidaAtual();
     }
 
@@ -78,6 +74,4 @@ public class Inimigo : MonoBehaviour
     {
         vidaAtual = vidaMaxima;
     }
-
-
 }

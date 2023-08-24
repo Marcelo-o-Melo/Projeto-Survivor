@@ -6,45 +6,53 @@ public class Projetil : MonoBehaviour
 {
     public float danoBase;
     public float danoFinal;
-    public float tempoDesativacao;
+    [SerializeField] private float tempoDesativacao;
     public bool desativadoPorTempo;
     public bool desativadoPorColisao;
 
     void Start()
     {
+        danoFinal = danoBase * EscolherPoder.multiplicador;
         Physics2D.IgnoreLayerCollision(gameObject.layer, 3); //player
         Physics2D.IgnoreLayerCollision(gameObject.layer, 7); //arma
     }
 
     private void Update()
     {
-        danoFinal = danoBase * EscolherPoder.multiplicador;
         if(desativadoPorTempo){
             if(gameObject.activeInHierarchy)
             {
                 StartCoroutine(DesativarObjetoTempo());
             }
         }
-
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if(desativadoPorColisao)
+        if (desativadoPorColisao)
         {
-            if (collision.gameObject.CompareTag("Inimigo"))
-            {
-                gameObject.SetActive(false);
+            Inimigo inimigo = other.gameObject.GetComponent<Inimigo>();
+
+            if (other.gameObject.CompareTag("Inimigo"))
+            {////// projetil  <= vidaInimigo /////
+                if (danoFinal <= inimigo.vidaAtual)
+                {
+                    gameObject.SetActive(false);
+                    danoFinal = danoBase * EscolherPoder.multiplicador;
+                }
+                else
+                {
+                    danoFinal--;
+                }
             }
         }
-
     }
 
-    public IEnumerator DesativarObjetoTempo()
+    private IEnumerator DesativarObjetoTempo()
     {
         yield return new WaitForSeconds(tempoDesativacao);
-
         gameObject.SetActive(false);
+        danoFinal = danoBase * EscolherPoder.multiplicador;
     }
 
 }

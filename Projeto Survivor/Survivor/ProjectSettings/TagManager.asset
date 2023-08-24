@@ -9,6 +9,7 @@ TagManager:
   - Caixa
   - Xp
   - Orbe
+  - Terreno
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - arma
   - xp
   - caixa
-  - 
+  - Terreno
   - 
   - 
   - 

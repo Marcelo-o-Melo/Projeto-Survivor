@@ -11,25 +11,30 @@ public class Player : MonoBehaviour
     public XpPlayer xpPlayer;
     public MovimentoPlayer movimentoPlayer;
 
+    public float multiplicadorXp;
+
     // Start is called before the first frame update
     void Start()
     {
+        multiplicadorXp = 1;
         vidaPlayer = GetComponent<VidaPlayer>();
         xpPlayer = GetComponent<XpPlayer>();
         movimentoPlayer = GetComponent<MovimentoPlayer>();
 
     }
-    
-    private void OnTriggerEnter2D(Collider2D other) 
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (other.gameObject.CompareTag("Xp"))
+        if (collision.gameObject.CompareTag("Xp"))
         {
-            Xp xpObject = other.gameObject.GetComponent<Xp>();
-            xpPlayer.xp += xpObject.valor;
+            Xp xp = collision.gameObject.GetComponent<Xp>();
+
+            Debug.Log(xp.valorTotal);
+            xpPlayer.xp += xp.valorTotal * multiplicadorXp;
             gui.AlterarXp(xpPlayer.xp);
+
+            xp.valorTotal = xp.valorInicial;
             xpPlayer.SubirNivel();
         }
-        
     }
 
 }

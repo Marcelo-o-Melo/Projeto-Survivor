@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Disparo : MonoBehaviour
@@ -11,18 +10,16 @@ public class Disparo : MonoBehaviour
 
     public Pool poolProjetilShuriken;
     public Pool poolProjetilFaca;
-  
+
     public Transform pontoLancamento1;
     public Transform pontoLancamento2;
     public Transform pontoLancamento3;
 
-    public GameObject ponto1;
-    public GameObject ponto2;
-    public GameObject ponto3;
-
     public Vector2 direcaoAlvo;
 
-    public float intervaloDisparo = 1f;
+    public float intervaloDisparoShuriken = 1f; // Intervalo para shurikens
+    public float intervaloDisparoFaca = 1.5f;   // Intervalo para facas
+
     public float forcaLancamento;
     public float distanciaMinima = 20f;
 
@@ -32,45 +29,90 @@ public class Disparo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        forcaLancamento = EscolherPoder.multiplicadorVelocidadeProjetil /10;
+
+        forcaLancamento = EscolherPoder.multiplicadorVelocidadeProjetil / 10;
         //atirando = true;
-        poderFaca = false; 
+        poderFaca = false;
 
-        StartCoroutine(IntervaloDisparo()); // Inicia a rotina de intervalo de disparo
-
+        StartCoroutine(IntervaloDisparoShuriken());// Inicia a corrotina de intervalo de disparo de shurikens
+        StartCoroutine(IntervaloDisparoFaca());// Inicia a corrotina de intervalo de disparo de facas
     }
 
-    IEnumerator IntervaloDisparo()
+    private void Update()
+    {
+        //intervaloDisparoShuriken = escolherPoder.multilpicadorIntervalo ; // Intervalo para shurikens
+        //intervaloDisparoFaca = escolherPoder.multilpicadorIntervalo;   // Intervalo para facas       
+    }
+    IEnumerator IntervaloDisparoShuriken()
     {
         while (true)
         {
-            yield return new WaitForSeconds(intervaloDisparo);
+            yield return new WaitForSeconds(intervaloDisparoShuriken);
             if (atirando)
             {
-                Disparar(); // Chama o metodo Disparar apenas se estiver atirando
+                GameObject alvoMaisProximo = FindNearestEnemy();
+
+                if (alvoMaisProximo != null)
+                {
+                    direcaoAlvo = alvoMaisProximo.transform.position - transform.position;
+                    direcaoAlvo.Normalize();
+
+                    ProjetilShuriken(pontoLancamento1, direcaoAlvo, forcaLancamento);
+                }
             }
         }
     }
+    IEnumerator IntervaloDisparoFaca()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(intervaloDisparoFaca);
+            if (atirando)
+            {
+                GameObject alvoMaisProximo = FindNearestEnemy();
 
+                if (alvoMaisProximo != null)
+                {
+                    direcaoAlvo = alvoMaisProximo.transform.position - transform.position;
+                    direcaoAlvo.Normalize();
+
+                    if (escolherPoder.contFaca >= 1)
+                    {
+                        gui.faca = 1;
+                        ProjetilFaca(pontoLancamento1, direcaoAlvo, forcaLancamento);
+                    }
+                    if (escolherPoder.contFaca >= 3)
+                    {
+                        gui.faca = 2;
+                        ProjetilFaca(pontoLancamento2, direcaoAlvo, forcaLancamento);
+                    }
+                    if (escolherPoder.contFaca >= 5)
+                    {
+                        gui.faca = 3;
+                        ProjetilFaca(pontoLancamento3, direcaoAlvo, forcaLancamento);
+                    }
+                }
+            }
+        }
+    }
     public void ReiniciarRotinaDeDisparo()
     {
         if (!atirando)
         {
             AtivarDisparo(); // Ativa o disparo
-            InvokeRepeating("Disparar", intervaloDisparo, intervaloDisparo); // Chama repetidamente o metodo Disparar()
+            InvokeRepeating("DispararFaca", intervaloDisparoFaca, intervaloDisparoFaca); // Chama repetidamente o metodo Disparar()
+            InvokeRepeating("DispararShuriken", intervaloDisparoShuriken, intervaloDisparoShuriken); // Chama repetidamente o metodo Disparar()
         }
     }
-
     public void AtivarDisparo()
     {
         atirando = true;
     }
-
     public void DesativarDisparo()
     {
         atirando = false;
     }
-    void DispararProjetilShuriken(Transform pontoLancamento, Vector2 direcaoAlvo, float forcaLancamento)
+    void ProjetilShuriken(Transform pontoLancamento, Vector2 direcaoAlvo, float forcaLancamento)
     {
         ///////// OBJECT POOOLING ////////
         GameObject projetilShuriken = poolProjetilShuriken.GetObjetos();
@@ -83,7 +125,7 @@ public class Disparo : MonoBehaviour
             projetilRigidbody.AddForce(direcaoAlvo * forcaLancamento, ForceMode2D.Impulse);
         }
     }
-     void DispararProjetilFaca(Transform pontoLancamento, Vector2 direcaoAlvo, float forcaLancamento)
+    void ProjetilFaca(Transform pontoLancamento, Vector2 direcaoAlvo, float forcaLancamento)
     {
         ///////// OBJECT POOOLING ////////
         GameObject projetilFaca = poolProjetilFaca.GetObjetos();
@@ -96,35 +138,6 @@ public class Disparo : MonoBehaviour
             projetilRigidbody.AddForce(direcaoAlvo * forcaLancamento, ForceMode2D.Impulse);
         }
     }
-
-    public void Disparar()
-    {
-        
-        GameObject alvoMaisProximo = FindNearestEnemy();
-        
-        if (alvoMaisProximo != null)
-        {
-            direcaoAlvo = alvoMaisProximo.transform.position - transform.position;
-            direcaoAlvo.Normalize();
-            
-            if (escolherPoder.contFaca >= 1)
-            {
-                DispararProjetilFaca(pontoLancamento3, direcaoAlvo, forcaLancamento);  
-            }
-            if (escolherPoder.contFaca >= 3)
-            {
-                DispararProjetilFaca(pontoLancamento2, direcaoAlvo, forcaLancamento);  
-            }
-            if (escolherPoder.contFaca >= 5)
-            {
-                DispararProjetilFaca(pontoLancamento1, direcaoAlvo, forcaLancamento);  
-            }
-            
-            DispararProjetilShuriken(pontoLancamento3, direcaoAlvo, forcaLancamento);
-        }
-        
-    }
-
     public GameObject FindNearestEnemy()
     {
         GameObject[] inimigos = GameObject.FindGameObjectsWithTag("Inimigo");
@@ -142,7 +155,6 @@ public class Disparo : MonoBehaviour
                 distanciaMaisProxima = distanciaInimigo;
             }
         }
-
         return alvoMaisProximo;
     }
 }

@@ -57,7 +57,7 @@ public class VidaPlayer : MonoBehaviour
     {
         if (vidaAtual <= 0)
         {
-           gameObject.SetActive(false);
+           Destroy(gameObject);
         }
     }
 
@@ -99,7 +99,7 @@ public class VidaPlayer : MonoBehaviour
                     escudoAtivoItem = false;
                 }
 
-                if (escudoAtivoPoder)
+                if (escudoAtivoPoder && escudoPoder > 0)
                 {
                     escudoPoder -= inimigo.dano;
                     gui.AlterarEscudoPoder(escudoPoder);

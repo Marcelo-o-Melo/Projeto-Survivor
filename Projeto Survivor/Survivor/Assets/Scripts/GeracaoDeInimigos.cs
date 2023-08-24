@@ -1,5 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GeracaoDeInimigos : MonoBehaviour
@@ -16,21 +16,29 @@ public class GeracaoDeInimigos : MonoBehaviour
 
     public int nivelInimigos;
 
-    [SerializeField]private Transform player;
+    [SerializeField] private Transform player;
 
     private bool spawnInimigoLevel1 = true;
     private bool spawnInimigoLevel2 = false;
 
+    public bool gerarInimigos;
+
+
     void Start()
     {
+
         nivelInimigos = 1;
-        // Inicia a corrotina de geracao de monstros
-        StartCoroutine(GerarMonstrosPeriodicamente());
+        if (gerarInimigos)
+        {
+            // Inicia a corrotina de geracao de monstros
+            StartCoroutine(GerarMonstrosPeriodicamente());
+        }
+
         StartCoroutine(AtivarSpawnInimigoRaro());
 
         InvokeRepeating("DiminuirIntervalo", 60f, 60f);
     }
-      
+
     IEnumerator GerarMonstrosPeriodicamente()
     {
         while (true)
@@ -49,10 +57,11 @@ public class GeracaoDeInimigos : MonoBehaviour
                     float distancia = Vector2.Distance(posicaoLevel1, player.position);
 
                     // Verifica a distancia minima entre a posicao aleatoria e o personagem
-                    if(distancia >= distanciaMinima){
+                    if (distancia >= distanciaMinima)
+                    {
                         inimigo1.SetActive(true);
                         inimigo1.transform.position = posicaoLevel1;
-                    }                 
+                    }
                 }
 
                 // Verifica se o inimigo 2 deve ser gerado
@@ -80,15 +89,14 @@ public class GeracaoDeInimigos : MonoBehaviour
         yield return new WaitForSeconds(30f);
         spawnInimigoLevel2 = true;
     }
-
     // Método para aumentar o nível (chamado quando necessário)
 
     void DiminuirIntervalo()
     {
-        if (intervaloGeracao > 0 )
+        if (intervaloGeracao > 0)
         {
             intervaloGeracao *= 0.90f;
-            
+
         }
     }
 }

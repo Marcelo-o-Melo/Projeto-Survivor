@@ -5,20 +5,28 @@ using UnityEngine.SceneManagement;
 
 public class ControladorJogo : MonoBehaviour
 {
-    private bool jogoPausado = false;
-    private bool metodoAtivo = false;
+    public bool jogoPausado = false;
+    public bool metodoAtivo = false;
     [SerializeField]private GameObject painelPause;
     [SerializeField]private GameObject painelGameOver;
     [SerializeField]private GameObject painelOpcoes;
     
     public GameObject player;
-    
+
+
+    public void Start()
+    {
+        Screen.orientation = ScreenOrientation.LandscapeLeft;
+    }
     void Update()
     {
         if (player == null)
         {
             gameOver();
             metodoAtivo = true;
+
+            Xp.distanciaMinima = 3f;
+
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -39,6 +47,7 @@ public class ControladorJogo : MonoBehaviour
             Debug.Log("Pausar() nao pode ser chamado enquanto o gameOver() esta ativo.");
             return;
         }
+        metodoAtivo = true;
         Time.timeScale = 0f;
         jogoPausado = true;
         painelPause.SetActive(true);
@@ -48,6 +57,7 @@ public class ControladorJogo : MonoBehaviour
         jogoPausado = false;
         painelPause.SetActive(false);
         painelOpcoes.SetActive(false);
+        metodoAtivo = false;
     }
     public void gameOver(){
         Time.timeScale = 0f;
@@ -61,5 +71,6 @@ public class ControladorJogo : MonoBehaviour
     }
     public void voltarMenu(){
         SceneManager.LoadScene(0);
+        Xp.distanciaMinima = 3f;
     }
 }

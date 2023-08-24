@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Poderes : MonoBehaviour
 {
+    public Transform player;
     public EscolherPoder escolherPoder;
 /// <summary>
 /// orbes
@@ -17,19 +18,32 @@ public class Poderes : MonoBehaviour
 /// <summary>
 /// dano em area
 /// </summary>
+
     public GameObject danoArea;
+    public float areaFinal;
 
     private void Update() {
         VerificarOrbes();
         VerificarDanoArea();
 
+        orbesOrbitais.transform.position = player.position;
+        danoArea.transform.position = player.position;
         //recebe o multiplicador de velocidade da Classa Escolher Poder
         velocidadeRotacao = EscolherPoder.multiplicadorVelocidadeProjetil;
-        //rotaciona os orbes orbitais
-        orbesOrbitais.Rotate(0f, 0f, velocidadeRotacao * Time.deltaTime);
+
+        if(orbesOrbitais != null)
+        {
+            //rotaciona os orbes orbitais
+            orbesOrbitais.Rotate(0f, 0f, velocidadeRotacao * Time.deltaTime);
+        }
+
         //codigo do aumento da area
-        float i = escolherPoder.TamanhoArea;
-        danoArea.transform.localScale = new Vector3(i, i, i);
+        if(danoArea != null)
+        {
+            float i = areaFinal;
+            danoArea.transform.localScale = new Vector3(i, i, i);
+        }
+
 
     }
 
@@ -50,6 +64,7 @@ public class Poderes : MonoBehaviour
 
     private void VerificarDanoArea(){
         if(escolherPoder.contDanoArea >= 1){
+            areaFinal = escolherPoder.TamanhoArea + escolherPoder.TamanhoAreaDano;
             danoArea.SetActive(true);
         }
     }
