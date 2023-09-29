@@ -48,6 +48,8 @@ public class TileLoader : MonoBehaviour
                 {
                     Vector3 tilePosition = new Vector3(x * tileSpacing.x, y * tileSpacing.y, 0);
                     GameObject newTile = Instantiate(tilePrefab, tilePosition, Quaternion.identity);
+
+                    newTile.transform.SetParent(this.transform);
                     loadedTiles.Add(tileCoords, newTile);
                 }
             }

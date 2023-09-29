@@ -10,6 +10,9 @@ TagManager:
   - Xp
   - Orbe
   - Terreno
+  - Explosion
+  - SliderMusica
+  - SliderSom
   layers:
   - Default
   - TransparentFX
